@@ -11,21 +11,23 @@ import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.LiteralTextContent;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Environment(value=EnvType.CLIENT)
 public class QuickNavButton extends ClickableWidget {
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
     private static final Identifier BUTTON_TEXTURE = new Identifier("textures/gui/container/creative_inventory/tabs.png");
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public void appendNarrations(NarrationMessageBuilder builder) {
+    protected void appendClickableNarrations(NarrationMessageBuilder builder) {
 
     }
 
-    private int index;
+    private final int index;
     private boolean toggled;
     private int u;
     private int v;
@@ -42,8 +44,7 @@ public class QuickNavButton extends ClickableWidget {
 
     private void updateCoordinates() {
         Screen screen = MinecraftClient.getInstance().currentScreen;
-        if (screen instanceof HandledScreen<?>) {
-            HandledScreen<?> handledScreen = (HandledScreen<?>) screen;
+        if (screen instanceof HandledScreen<?> handledScreen) {
             int x = ((HandledScreenAccessor)handledScreen).getX();
             int y = ((HandledScreenAccessor)handledScreen).getY();
             int w = ((HandledScreenAccessor)handledScreen).getBackgroundWidth();
@@ -63,10 +64,17 @@ public class QuickNavButton extends ClickableWidget {
         if (!this.toggled) {
             this.toggled = true;
             // CLIENT.player.sendChatMessage(command, Text.of(command));
-            CLIENT.player.sendMessage(Text.of(command));
-            // TODO : add null check with log error
+            if (CLIENT.player != null) {
+                CLIENT.player.sendMessage(Text.of(command));
+            }
+            else {
+                LOGGER.error("CLIENT.player is null");
+            }
+
         }
     }
+
+
 
     @Override
     public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {

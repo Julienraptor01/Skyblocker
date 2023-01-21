@@ -10,11 +10,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class ResultButtonWidget extends ClickableWidget {
     private static final Identifier BACKGROUND_TEXTURE = new Identifier("textures/gui/recipe_book.png");
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     protected ItemStack itemStack = null;
 
@@ -46,16 +49,24 @@ public class ResultButtonWidget extends ClickableWidget {
         client.getItemRenderer().renderGuiItemOverlay(client.textRenderer, itemStack, this.getX() + 4, this.getY() + 4);
     }
 
-    @Override
+    //@Override
     public void renderTooltip(MatrixStack matrices, int mouseX, int mouseY) {
         MinecraftClient client = MinecraftClient.getInstance();
-        List<Text> tooltip = client.currentScreen.getTooltipFromItem(this.itemStack);
-        // TODO : add null check with log error
-        client.currentScreen.renderTooltip(matrices, tooltip, mouseX, mouseY);
+        if (client.currentScreen != null)
+        {
+            List<Text> tooltip = client.currentScreen.getTooltipFromItem(this.itemStack);
+            client.currentScreen.renderTooltip(matrices, tooltip, mouseX, mouseY);
+        }
+        else {
+            LOGGER.error("client.currentScreen is null");
+        }
+
+
     }
 
+
     @Override
-    public void appendNarrations(NarrationMessageBuilder builder) {
+    protected void appendClickableNarrations(NarrationMessageBuilder builder) {
 
     }
 }
