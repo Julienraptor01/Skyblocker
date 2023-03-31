@@ -6,7 +6,6 @@ import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import me.xmrvizzy.skyblocker.chat.ChatFilterResult;
-import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +46,9 @@ public class SkyblockerConfig implements ConfigData {
 
         @ConfigEntry.Category("button3")
         @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
-        public QuickNavItem button3 = new QuickNavItem(false, new ItemData("air"), "", "");
+        //public QuickNavItem button3 = new QuickNavItem(false, new ItemData("air"), "", "");
+        //replace with a player head
+        public QuickNavItem button3 = new QuickNavItem(true, new ItemData("player_head", 1, "tag:{SkullOwner:{Id:[I;-977489460,996425756,-1918672544,917993900],Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTYxYTkxOGMwYzQ5YmE4ZDA1M2U1MjJjYjkxYWJjNzQ2ODkzNjdiNGQ4YWEwNmJmYzFiYTkxNTQ3MzA5ODVmZiJ9fX0=\"}]}}}"), "Sack of Sacks", "/sacks");
 
         @ConfigEntry.Category("button4")
         @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
@@ -63,15 +64,15 @@ public class SkyblockerConfig implements ConfigData {
 
         @ConfigEntry.Category("button7")
         @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
-        public QuickNavItem button7 = new QuickNavItem(true, new ItemData("player_head", 1, "tag:{SkullOwner:{Id:[I;-300151517,-631415889,-1193921967,-1821784279],Properties:{textures:[{Value:\"e3RleHR1cmVzOntTS0lOOnt1cmw6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDdjYzY2ODc0MjNkMDU3MGQ1NTZhYzUzZTA2NzZjYjU2M2JiZGQ5NzE3Y2Q4MjY5YmRlYmVkNmY2ZDRlN2JmOCJ9fX0=\"}]}}}"), "none", "/hub");
+        public QuickNavItem button7 = new QuickNavItem(true, new ItemData("player_head", 1, "tag:{SkullOwner:{Id:[I;-300151517,-631415889,-1193921967,-1821784279],Properties:{textures:[{Value:\"e3RleHR1cmVzOntTS0lOOnt1cmw6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDdjYzY2ODc0MjNkMDU3MGQ1NTZhYzUzZTA2NzZjYjU2M2JiZGQ5NzE3Y2Q4MjY5YmRlYmVkNmY2ZDRlN2JmOCJ9fX0=\"}]}}}"), "Hub", "/hub");
 
         @ConfigEntry.Category("button8")
         @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
-        public QuickNavItem button8 = new QuickNavItem(true, new ItemData("player_head", 1, "tag:{SkullOwner:{Id:[I;1605800870,415127827,-1236127084,15358548],Properties:{textures:[{Value:\"e3RleHR1cmVzOntTS0lOOnt1cmw6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzg5MWQ1YjI3M2ZmMGJjNTBjOTYwYjJjZDg2ZWVmMWM0MGExYjk0MDMyYWU3MWU3NTQ3NWE1NjhhODI1NzQyMSJ9fX0=\"}]}}}"), "none", "/warp dungeon");
+        public QuickNavItem button8 = new QuickNavItem(true, new ItemData("player_head", 1, "tag:{SkullOwner:{Id:[I;1605800870,415127827,-1236127084,15358548],Properties:{textures:[{Value:\"e3RleHR1cmVzOntTS0lOOnt1cmw6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzg5MWQ1YjI3M2ZmMGJjNTBjOTYwYjJjZDg2ZWVmMWM0MGExYjk0MDMyYWU3MWU3NTQ3NWE1NjhhODI1NzQyMSJ9fX0=\"}]}}}"), "Dungeon Hub", "/warp dungeon_hub");
 
         @ConfigEntry.Category("button9")
         @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)
-        public QuickNavItem button9 = new QuickNavItem(false, new ItemData("air"), "", "");
+        public QuickNavItem button9 = new QuickNavItem(true, new ItemData("player_head", 1, "tag:{SkullOwner:{Id:[I;1860483573,1726564425,-1428231295,-436665521],Properties:{textures:[{\"Signature\":\"vqNpEahIthHsm+Rgy9CPR01fzqdkhpnKeUNvZS7EktFZJu1T9MTpel5/KEL/sKFcmt+RAJJ9uLEwosF5fsb97A1TBnSbRwkfl/RUExO5F0EoV9+4L2wN/VGmOnjmXssqjfl9GsXPInJhhaAPcvZtmriRrznJez/JWzITjLEdBCbzKwBHqVu6Qa6zeD9N93LxVUEYYxKaULgTXkdpsxV2dl486ZJIhUKomp/KtWQrK77q2kfTsS8fWyiI/FeeSiWAE53okIkug3Tejj8UbzOGmPr43l99TMy+cWMREsCrfGmGJ0oKURTBy0n1l8E9GcfEGQLLaPrrOKUyBtOSAildnl2/yMEVRg+IYQ1ro91t+RMfNhsZOoH19ijCp4JH74J4xbd4CUn4Nb/CyxXrJUAenj4RLB7dEsiR0EU3rLS6wMZvr3h7QxZqFPPZ9UD7iF6GQ+HKQNOz47GaWFlw7g0AK/h0h8odUH6yvX6gsYGhc3EYII4czSKmFVgiEXdV4MP8rWlSrkqRpFyMByzNAjq2z6RL4F/NZdT9ZCuifdBjbBIBvARsMJ0VuTSGyfHXW0qB5d7Wn2GPKnPMX/AHWM/938knYe3ECwh/2AcywewXKwr/qflU0V+U1rY7XGpQTO7jRDs8o0XBIT7arlxw/McleXdkWQoELQcU17pM4TB16Fw=\",Value:\"ewogICJ0aW1lc3RhbXAiIDogMTY3NjcyMDcxOTU5MywKICAicHJvZmlsZUlkIiA6ICI2ZWU0YjlmNTY2ZTk0ODQ5YWFkZWViODFlNWY5MDM0ZiIsCiAgInByb2ZpbGVOYW1lIiA6ICJwcnRsIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2I1ZGY1NTU5MjY0MzBkNWQ3NWFkZWQyMWRkOTYxOWI3NmM1YjdjYTJjN2Y1NDAxNDQwNTIzZDUzYThiY2ZhYWIiCiAgICB9CiAgfQp9=\"}]}}}"), "Visit prtl", "/visit prtl");
 
         @ConfigEntry.Category("button10")
         @ConfigEntry.Gui.CollapsibleObject(startExpanded = false)

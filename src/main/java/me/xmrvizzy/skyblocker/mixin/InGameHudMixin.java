@@ -25,6 +25,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Objects;
+
 @Environment(EnvType.CLIENT)
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin extends DrawableHelper {
@@ -53,7 +55,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
             return;
         String msg = message.getString();
         String res = statusBarTracker.update(msg, SkyblockerConfig.get().messages.hideMana);
-        if (msg != res) {
+        if (!Objects.equals(msg, res)) {
             if (res != null)
                 setOverlayMessage(Text.of(res), tinted);
             ci.cancel();

@@ -11,7 +11,6 @@ import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.LiteralTextContent;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -42,8 +41,7 @@ public class QuickNavButton extends ClickableWidget {
 
     private void updateCoordinates() {
         Screen screen = MinecraftClient.getInstance().currentScreen;
-        if (screen instanceof HandledScreen<?>) {
-            HandledScreen<?> handledScreen = (HandledScreen<?>) screen;
+        if (screen instanceof HandledScreen<?> handledScreen) {
             int x = ((HandledScreenAccessor)handledScreen).getX();
             int y = ((HandledScreenAccessor)handledScreen).getY();
             int w = ((HandledScreenAccessor)handledScreen).getBackgroundWidth();
