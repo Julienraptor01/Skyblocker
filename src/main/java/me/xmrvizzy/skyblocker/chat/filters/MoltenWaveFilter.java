@@ -5,8 +5,7 @@ import me.xmrvizzy.skyblocker.config.SkyblockerConfig;
 
 public class MoltenWaveFilter extends SimpleChatFilter {
     public MoltenWaveFilter() {
-        //TODO: verify this pattern
-        super("^Your Molten Wave hit " + NUMBER + " enemy(?:y|ies) for " + NUMBER + " damage\\.$");
+        super("^Your Molten Wave hit " + NUMBER + " enem(?:y|ies) for " + NUMBER + " damage\\.$");
     }
 
     @Override
