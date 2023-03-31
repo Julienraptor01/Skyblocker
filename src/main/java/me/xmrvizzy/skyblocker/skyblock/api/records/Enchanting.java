@@ -1,7 +1,6 @@
 package me.xmrvizzy.skyblocker.skyblock.api.records;
 
 import com.google.gson.annotations.SerializedName;
-import me.xmrvizzy.skyblocker.skyblock.api.records.PlayerProfiles;
 
 import java.util.HashMap;
 
