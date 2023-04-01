@@ -13,7 +13,6 @@ import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.screen.AbstractRecipeScreenHandler;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Formatting;
 
 @Environment(value= EnvType.CLIENT)
@@ -82,7 +81,7 @@ public class ItemListWidget extends RecipeBookWidget implements Drawable, Select
                 this.results.closeRecipeView();
                 return true;
             }
-            if (this.results.mouseClicked(mouseX, mouseY, button)) return true;
+            return this.results.mouseClicked(mouseX, mouseY, button);
         }
         return false;
     }

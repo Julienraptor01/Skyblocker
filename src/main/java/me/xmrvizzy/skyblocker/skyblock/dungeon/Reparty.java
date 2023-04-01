@@ -26,14 +26,12 @@ public class Reparty extends ChatPatternListener {
     public Reparty() {
         super("^(?:You are not currently in a party\\.|Party (?:Membe|Moderato)rs(?: \\(([0-9]+)\\)|:( .*)))$");
         this.repartying = false;
-        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-            dispatcher.register(ClientCommandManager.literal("rp").executes(context -> {
-                if (!Utils.isOnSkyblock || this.repartying || client.player == null) return 0;
-                this.repartying = true;
-                client.player.sendChatMessage("/p list", Text.of("/p list"));
-                return 0;
-            }));
-        });
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(ClientCommandManager.literal("rp").executes(context -> {
+            if (!Utils.isOnSkyblock || this.repartying || client.player == null) return 0;
+            this.repartying = true;
+            client.player.sendChatMessage("/p list", Text.of("/p list"));
+            return 0;
+        })));
 
 
 

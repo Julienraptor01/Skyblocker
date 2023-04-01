@@ -48,7 +48,7 @@ public class BackpackPreview extends DrawableHelper {
             // update save dir based on uuid and sb profile
             String uuid = MinecraftClient.getInstance().getSession().getUuid().replaceAll("-", "");
             String profile = getSkyblockProfile();
-            if (uuid != null && profile != null) {
+            if (profile != null) {
                 save_dir = FabricLoader.getInstance().getConfigDir().resolve("skyblocker/backpack-preview/" + uuid + "/" + profile);
                 save_dir.toFile().mkdirs();
                 if (loaded.equals(uuid + "/" + profile)) {
@@ -121,7 +121,7 @@ public class BackpackPreview extends DrawableHelper {
         String title = screen.getTitle().getString();
         int index = getStorageIndexFromTitle(title);
         if (index != -1) {
-            storage[index] = ((HandledScreen<?>)screen).getScreenHandler().slots.get(0).inventory;
+            storage[index] = screen.getScreenHandler().slots.get(0).inventory;
             dirty[index] = true;
         }
     }

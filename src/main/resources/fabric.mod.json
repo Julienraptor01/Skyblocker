@@ -36,6 +36,7 @@
       "links": {
         "modmenu.discord": "https://discord.com/invite/aNNJHQykck"
       }
-    }
+    },
+    "update_checker": false
   }
 }

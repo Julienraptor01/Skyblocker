@@ -9,10 +9,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.LiteralTextContent;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Formatting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -184,7 +182,7 @@ public class PriceInfoTooltip {
 
     /**
      * this method converts the "timestamp" variable into the same date format as Hypixel represents it in the museum.
-     * Currently there are two types of timestamps the legacy which is built like this
+     * Currently, there are two types of timestamps the legacy which is built like this
      * "dd/MM/yy hh:mm" ("25/04/20 16:38") and the current which is built like this
      * "MM/dd/yy hh:mm aa" ("12/24/20 11:08 PM"). Since Hypixel transforms the two formats into one format without
      * taking into account of their formats, we do the same. The final result looks like this
@@ -194,7 +192,7 @@ public class PriceInfoTooltip {
      * This causes the museum rank to be much worse than it should be.
      *
      * @param stack the item under the pointer
-     * @return if the item have an "Timestamp" it will be shown formated on the tooltip
+     * @return if the item have a "Timestamp" it will be shown formated on the tooltip
      */
     public static String getTimestamp(ItemStack stack) {
         NbtCompound tag = getInternalNameForItem(stack);
