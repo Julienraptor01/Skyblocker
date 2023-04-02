@@ -38,7 +38,7 @@ public class QuickNav {
         if (itemData.nbt.length() > 2) nbtString += "," + itemData.nbt;
         nbtString += "}";
         return new QuickNavButton(id,
-                screenTitle.contains(buttonInfo.uiTitle),
+                screenTitle.equals(buttonInfo.uiTitle),
                 buttonInfo.clickEvent,
                 ItemStack.fromNbt(StringNbtReader.parse(nbtString))
         );
