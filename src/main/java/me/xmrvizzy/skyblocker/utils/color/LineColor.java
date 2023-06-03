@@ -15,7 +15,7 @@ public class LineColor extends RenderColor {
     }
 
     public static LineColor single(int red, int green, int blue, int alpha) {
-        return new LineColor((x, y, z, curVertex) -> new int[] { red, green, blue, alpha });
+        return new LineColor((x, y, z, curVertex) -> new int[]{red, green, blue, alpha});
     }
 
     public static LineColor gradient(float red1, float green1, float blue1, float alpha1, float red2, float green2, float blue2, float alpha2) {
@@ -33,10 +33,10 @@ public class LineColor extends RenderColor {
     public static LineColor gradient(int red1, int green1, int blue1, int alpha1, int red2, int green2, int blue2, int alpha2) {
         return new LineColor((x, y, z, curVertex) -> {
             if (curVertex == 0) {
-                return new int[] { red1, green1, blue1, alpha1 };
+                return new int[]{red1, green1, blue1, alpha1};
             }
 
-            return new int[] { red2, green2, blue2, alpha2 };
+            return new int[]{red2, green2, blue2, alpha2};
         });
     }
 

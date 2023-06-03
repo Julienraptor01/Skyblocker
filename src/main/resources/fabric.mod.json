@@ -4,8 +4,21 @@
   "version": "${version}",
   "name": "Skyblocker",
   "description": "Hypixel Skyblock Mod",
-  "authors": ["xMrVizzy", "d3dx9", "LifeIsAParadox"],
-  "contributors": ["ExternalTime", "Zailer43", "TacoMonkey", "KonaeAkira", "Fix3dll", "null2264", "HyperSoop", "edgarogh"],
+  "authors": [
+    "xMrVizzy",
+    "d3dx9",
+    "LifeIsAParadox"
+  ],
+  "contributors": [
+    "ExternalTime",
+    "Zailer43",
+    "TacoMonkey",
+    "KonaeAkira",
+    "Fix3dll",
+    "null2264",
+    "HyperSoop",
+    "edgarogh"
+  ],
   "contact": {
     "homepage": "https://hysky.de",
     "sources": "https://github.com/SkyblockerMod/Skyblocker",
@@ -28,7 +41,7 @@
   "depends": {
     "fabricloader": ">=0.14.18",
     "fabric-api": "*",
-	"cloth-config2": "*",
+    "cloth-config2": "*",
     "minecraft": "~1.19.2"
   },
   "custom": {

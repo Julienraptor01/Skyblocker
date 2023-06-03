@@ -30,7 +30,7 @@ public class DungeonMap {
             matrices.push();
             matrices.translate(2, 2, 0);
             matrices.scale(1, 1, 0);
-            map.draw( matrices, vertices, mapid, state, false, 15728880);
+            map.draw(matrices, vertices, mapid, state, false, 15728880);
             vertices.draw();
             matrices.pop();
         }

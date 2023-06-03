@@ -12,9 +12,14 @@ public record Farming(
         @SerializedName("unique_golds") int unique_golds,
         HashMap<String, Crop> crops,
         Contests contests
-){
-    public record Badges(int bronze, int silver, int gold){}
-    public record Perks(@SerializedName("double_drops") int doubleDrops, @SerializedName("farming_level_cap") int farmingLevelCap){}
+) {
+    public record Badges(int bronze, int silver, int gold) {
+    }
+
+    public record Perks(@SerializedName("double_drops") int doubleDrops,
+                        @SerializedName("farming_level_cap") int farmingLevelCap) {
+    }
+
     public record Crop(
             String name,
             boolean attended,
@@ -22,9 +27,15 @@ public record Farming(
             int contests,
             @SerializedName("personal_best") int personalBest,
             Badges badges
-    ){}
-    public record Contests(@SerializedName("attended_contests") int attendedContests, @SerializedName("all_contests") Contest[] allContests){}
-    public record Contest(String date, String crop, int collected, boolean claimed, String medal, Placing placing){
-        public record Placing(int position, double percentage){}
+    ) {
+    }
+
+    public record Contests(@SerializedName("attended_contests") int attendedContests,
+                           @SerializedName("all_contests") Contest[] allContests) {
+    }
+
+    public record Contest(String date, String crop, int collected, boolean claimed, String medal, Placing placing) {
+        public record Placing(int position, double percentage) {
+        }
     }
 }

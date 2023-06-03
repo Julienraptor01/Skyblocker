@@ -2,11 +2,9 @@
   "key.categories.skyblocker": "Skyblocker",
   "key.hotbarSlotLock": "Блокировка слотов (В хотбаре)",
   "text.autoconfig.skyblocker.title": "Настройки Skyblocker",
-
   "text.autoconfig.skyblocker.category.general": "Основные",
   "text.autoconfig.skyblocker.option.general.bars": "Полоски здоровья, маны, защиты и опыта",
   "text.autoconfig.skyblocker.option.general.bars.enableBars": "Включить полоски",
-
   "text.autoconfig.skyblocker.category.locations": "Локации",
   "text.autoconfig.skyblocker.option.locations.dungeons": "Катакомбы",
   "text.autoconfig.skyblocker.option.locations.dungeons.enableMap": "Включить карту",
@@ -17,7 +15,6 @@
   "text.autoconfig.skyblocker.option.locations.dwarvenMines.enableDrillFuel": "Показывать топливо дрели",
   "text.autoconfig.skyblocker.option.locations.dwarvenMines.solveFetchur": "Решать загадку Fetchur-а",
   "text.autoconfig.skyblocker.option.locations.dwarvenMines.solvePuzzler": "Решать загадку Puzzler-а",
-
   "text.autoconfig.skyblocker.category.messages": "Сообщения",
   "text.autoconfig.skyblocker.option.messages.hideAbility": "Скрывать перезарядку способностей",
   "text.autoconfig.skyblocker.option.messages.hideHeal": "Скрывать сообщения об исцелении",

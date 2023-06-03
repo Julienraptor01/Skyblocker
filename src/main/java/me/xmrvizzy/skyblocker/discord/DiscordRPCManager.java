@@ -19,25 +19,25 @@ public class DiscordRPCManager {
     public static long startTimeStamp;
     public static int cycleCount;
 
-    public static void init(){
+    public static void init() {
         SkyblockEvents.LEAVE.register(DiscordIPC::stop);
     }
 
-    public void update(){
-        if (SkyblockerConfig.get().richPresence.customMessage != null ) {
+    public void update() {
+        if (SkyblockerConfig.get().richPresence.customMessage != null) {
             if (SkyblockerConfig.get().richPresence.customMessage.isBlank()) {
                 SkyblockerConfig.get().richPresence.customMessage = "All on Fabric!";
                 AutoConfig.getConfigHolder(SkyblockerConfig.class).save();
             }
         }
-        if (!SkyblockerConfig.get().richPresence.enableRichPresence || !Utils.isOnSkyblock){
+        if (!SkyblockerConfig.get().richPresence.enableRichPresence || !Utils.isOnSkyblock) {
             if (DiscordIPC.isConnected()) DiscordIPC.stop();
         }
-        if (SkyblockerConfig.get().richPresence.enableRichPresence && Utils.isOnSkyblock && !DiscordIPC.isConnected()){
+        if (SkyblockerConfig.get().richPresence.enableRichPresence && Utils.isOnSkyblock && !DiscordIPC.isConnected()) {
             if (!DiscordIPC.start(934607927837356052L, () -> {
                 LOGGER.info("Started up rich presence");
                 startTimeStamp = Instant.now().getEpochSecond();
-            })){
+            })) {
                 LOGGER.info("An error occurred while attempting to connect to discord");
                 return;
             }
@@ -47,7 +47,7 @@ public class DiscordRPCManager {
         buildPresence();
     }
 
-    public void buildPresence(){
+    public void buildPresence() {
         RichPresence presence = new RichPresence();
         presence.setLargeImage("skyblocker-default", null);
         presence.setStart(startTimeStamp);
@@ -56,16 +56,16 @@ public class DiscordRPCManager {
         DiscordIPC.setActivity(presence);
     }
 
-    public String getInfo(){
+    public String getInfo() {
         String info = null;
-        if (!SkyblockerConfig.get().richPresence.cycleMode){
-            switch (SkyblockerConfig.get().richPresence.info){
+        if (!SkyblockerConfig.get().richPresence.cycleMode) {
+            switch (SkyblockerConfig.get().richPresence.info) {
                 case BITS -> info = "Bits: " + DECIMAL_FORMAT.format(Utils.getBits());
                 case PURSE -> info = "Purse: " + DECIMAL_FORMAT.format(Utils.getPurse());
                 case LOCATION -> info = "⏣ " + Utils.getLocation();
             }
-        } else if (SkyblockerConfig.get().richPresence.cycleMode){
-            switch (cycleCount){
+        } else if (SkyblockerConfig.get().richPresence.cycleMode) {
+            switch (cycleCount) {
                 case 0 -> info = "Bits: " + DECIMAL_FORMAT.format(Utils.getBits());
                 case 1 -> info = "Purse: " + DECIMAL_FORMAT.format(Utils.getPurse());
                 case 2 -> info = "⏣ " + Utils.getLocation();

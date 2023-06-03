@@ -14,7 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-@Environment(value=EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class QuickNavButton extends ClickableWidget {
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
     private static final Identifier BUTTON_TEXTURE = new Identifier("textures/gui/container/creative_inventory/tabs.png");
@@ -42,10 +42,10 @@ public class QuickNavButton extends ClickableWidget {
     private void updateCoordinates() {
         Screen screen = MinecraftClient.getInstance().currentScreen;
         if (screen instanceof HandledScreen<?> handledScreen) {
-            int x = ((HandledScreenAccessor)handledScreen).getX();
-            int y = ((HandledScreenAccessor)handledScreen).getY();
-            int w = ((HandledScreenAccessor)handledScreen).getBackgroundWidth();
-            int h = ((HandledScreenAccessor)handledScreen).getBackgroundHeight();
+            int x = ((HandledScreenAccessor) handledScreen).getX();
+            int y = ((HandledScreenAccessor) handledScreen).getY();
+            int w = ((HandledScreenAccessor) handledScreen).getBackgroundWidth();
+            int h = ((HandledScreenAccessor) handledScreen).getBackgroundHeight();
             if (h > 166) --h; // why is this even a thing
             this.x = x + this.index % 6 * 28 + 4;
             this.y = this.index < 6 ? y - 28 : y + h - 4;
@@ -58,7 +58,7 @@ public class QuickNavButton extends ClickableWidget {
     public void onClick(double mouseX, double mouseY) {
         if (!this.toggled) {
             this.toggled = true;
-            CLIENT.player.sendCommand(command.replace("/",""));
+            CLIENT.player.sendCommand(command.replace("/", ""));
         }
     }
 
@@ -77,14 +77,14 @@ public class QuickNavButton extends ClickableWidget {
         // render button icon
         if (!this.toggled) {
             if (this.index >= 6)
-                CLIENT.getItemRenderer().renderInGui(this.icon,this.x + 6, this.y + 6);
+                CLIENT.getItemRenderer().renderInGui(this.icon, this.x + 6, this.y + 6);
             else
-                CLIENT.getItemRenderer().renderInGui(this.icon,this.x + 6, this.y + 9);
+                CLIENT.getItemRenderer().renderInGui(this.icon, this.x + 6, this.y + 9);
         } else {
             if (this.index >= 6)
-                CLIENT.getItemRenderer().renderInGui(this.icon,this.x + 6, this.y + 9);
+                CLIENT.getItemRenderer().renderInGui(this.icon, this.x + 6, this.y + 9);
             else
-                CLIENT.getItemRenderer().renderInGui(this.icon,this.x + 6, this.y + 6);
+                CLIENT.getItemRenderer().renderInGui(this.icon, this.x + 6, this.y + 6);
         }
         RenderSystem.enableDepthTest();
     }

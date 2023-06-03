@@ -17,7 +17,7 @@ public record Dungeons(
         @SerializedName("boss_collections") HashMap<String, Collection> bossCollections,
         Journals journals
 
-){
+) {
     public record Dungeon(
             String id,
             boolean visited,
@@ -25,7 +25,9 @@ public record Dungeons(
             @SerializedName("highest_floor") String highestFloor,
             HashMap<Integer, Floor> floors
 
-    ){}
+    ) {
+    }
+
     public record Collection(
             String name,
             String texture,
@@ -35,6 +37,9 @@ public record Dungeons(
             HashMap<String, Integer> floors,
             int unclaimed,
             String[] claimed
-    ){}
-    public record Class(PlayerProfiles.PlayerProfile.Data.Level experience, boolean current){}
+    ) {
+    }
+
+    public record Class(PlayerProfiles.PlayerProfile.Data.Level experience, boolean current) {
+    }
 }

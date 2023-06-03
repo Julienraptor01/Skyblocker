@@ -33,7 +33,7 @@ public class ItemStackBuilder {
         List<Pair<String, String>> injectors = new ArrayList<>(petData(internalName));
 
         NbtCompound root = new NbtCompound();
-        root.put("Count", NbtByte.of((byte)1));
+        root.put("Count", NbtByte.of((byte) 1));
 
         String id = obj.get("itemid").getAsString();
         int damage = obj.get("damage").getAsInt();
@@ -117,7 +117,7 @@ public class ItemStackBuilder {
         Set<Map.Entry<String, JsonElement>> entrySet = statNumsMin.entrySet();
         for (Map.Entry<String, JsonElement> entry : entrySet) {
             String key = entry.getKey();
-            String left = "\\{" + key+ "\\}";
+            String left = "\\{" + key + "\\}";
             String right = statNumsMin.get(key).getAsString() + " ➡ " + statNumsMax.get(key).getAsString();
             list.add(new Pair<>(left, right));
         }

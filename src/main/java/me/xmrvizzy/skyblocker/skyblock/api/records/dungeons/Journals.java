@@ -9,10 +9,11 @@ public record Journals(
         boolean maxed,
         @SerializedName("journal_entries") Entry[] journalEntries
 
-){
+) {
     public record Entry(
             String name,
             @SerializedName("pages_collected") int pagesCollected,
             @SerializedName("total_pages") Integer totalPages
-    ){}
+    ) {
+    }
 }

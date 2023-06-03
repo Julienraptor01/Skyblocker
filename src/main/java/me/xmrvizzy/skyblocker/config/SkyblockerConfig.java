@@ -58,7 +58,7 @@ public class SkyblockerConfig implements ConfigData {
 
         @ConfigEntry.Category("button6")
         @ConfigEntry.Gui.CollapsibleObject()
-        public QuickNavItem button6 = new QuickNavItem(true, new ItemData("ender_chest"),  "Storage", "/storage");
+        public QuickNavItem button6 = new QuickNavItem(true, new ItemData("ender_chest"), "Storage", "/storage");
 
         @ConfigEntry.Category("button7")
         @ConfigEntry.Gui.CollapsibleObject()
@@ -132,7 +132,7 @@ public class SkyblockerConfig implements ConfigData {
         @ConfigEntry.Category("bars")
         @ConfigEntry.Gui.CollapsibleObject()
         public Bars bars = new Bars();
-      
+
         @ConfigEntry.Category("itemList")
         @ConfigEntry.Gui.CollapsibleObject()
         public ItemList itemList = new ItemList();

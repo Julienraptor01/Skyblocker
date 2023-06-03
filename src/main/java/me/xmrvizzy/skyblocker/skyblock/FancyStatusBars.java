@@ -160,11 +160,11 @@ public class FancyStatusBars extends DrawableHelper {
             for (int i = 0; i < fill.length; i++) {
                 int fill_width = this.fill[i] * (bar_width - 2) / 100;
                 if (fill_width >= 1)
-                    drawTexture(matrices, anchorsX[anchorNum] + offsetX + 11, anchorsY[anchorNum], 72 + i*60, v, 1, 9);
+                    drawTexture(matrices, anchorsX[anchorNum] + offsetX + 11, anchorsY[anchorNum], 72 + i * 60, v, 1, 9);
                 for (int j = 1; j < fill_width - 1; j += 58)
-                    drawTexture(matrices, anchorsX[anchorNum] + offsetX + 11 + j, anchorsY[anchorNum], 73 + i*60, v, Math.min(58, fill_width - 1 - j), 9);
+                    drawTexture(matrices, anchorsX[anchorNum] + offsetX + 11 + j, anchorsY[anchorNum], 73 + i * 60, v, Math.min(58, fill_width - 1 - j), 9);
                 if (fill_width == bar_width - 2)
-                    drawTexture(matrices, anchorsX[anchorNum] + offsetX + 11 + fill_width - 1, anchorsY[anchorNum], 131 + i*60, v, 1, 9);
+                    drawTexture(matrices, anchorsX[anchorNum] + offsetX + 11 + fill_width - 1, anchorsY[anchorNum], 131 + i * 60, v, 1, 9);
             }
         }
 

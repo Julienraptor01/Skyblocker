@@ -2,9 +2,7 @@
   "key.categories.skyblocker": "Skyblocker",
   "key.hotbarSlotLock": "Verrouillage de slot (Hotbar)",
   "key.wikiLookup": "Recherche dans le wiki",
-
   "text.autoconfig.skyblocker.title": "Paramètres de Skyblocker",
-
   "text.autoconfig.skyblocker.category.general": "Général",
   "text.autoconfig.skyblocker.option.general.bars": "Barres de vie, de mana, de défense et d'XP",
   "text.autoconfig.skyblocker.option.general.bars.enableBars": "Activer les barres",
@@ -29,17 +27,14 @@
   "text.autoconfig.skyblocker.option.general.hitbox.oldLeverHitbox": "Hitbox 1.8 du levier",
   "skyblocker.itemTooltip.nullMessage": "§b[§6Skyblocker§b] §cLes informations sur le prix des objets vont s'actualiser dans 60 secondes maximum. Sinon consultez le fichier latest.log",
   "skyblocker.itemTooltip.noData": "§cNo Data",
-
   "text.autoconfig.skyblocker.category.richPresence": "Discord Rich Presence",
   "text.autoconfig.skyblocker.option.richPresence.info": "Information à afficher",
   "text.autoconfig.skyblocker.option.richPresence.info.@Tooltip": "Cette valeur n'a aucune importance si vous faites défiler",
   "text.autoconfig.skyblocker.option.richPresence.cycleMode": "Faire défiler les informations",
   "text.autoconfig.skyblocker.option.richPresence.enableRichPresence": "Activée",
   "text.autoconfig.skyblocker.option.richPresence.customMessage": "Message personnalisé",
-
   "text.autoconfig.skyblocker.option.general.itemList": "Liste d'objets",
   "text.autoconfig.skyblocker.option.general.itemList.enableItemList": "Activer la liste d'objets",
-
   "text.autoconfig.skyblocker.category.locations": "Lieux",
   "text.autoconfig.skyblocker.option.locations.dungeons": "Donjons",
   "text.autoconfig.skyblocker.option.locations.dungeons.croesusHelper": "Améliorer Croesus",
@@ -61,7 +56,6 @@
   "text.autoconfig.skyblocker.option.locations.dwarvenMines.dwarvenHud.enableBackground": "Activer l'arrière-plan",
   "text.autoconfig.skyblocker.option.locations.dwarvenMines.dwarvenHud.x": "X",
   "text.autoconfig.skyblocker.option.locations.dwarvenMines.dwarvenHud.y": "Y",
-
   "text.autoconfig.skyblocker.category.messages": "Messages",
   "text.autoconfig.skyblocker.option.messages.hideAbility": "Cacher le rechargement des capacités",
   "text.autoconfig.skyblocker.option.messages.hideHeal": "Cacher les messages de soin",
@@ -74,12 +68,10 @@
   "text.autoconfig.skyblocker.option.messages.hideAutopet": "Cacher les messages de l'auto-familier",
   "text.autoconfig.skyblocker.option.messages.hideMana": "Cacher les messages de consommation de mana de la barre d'action",
   "text.autoconfig.skyblocker.option.messages.hideMana.@Tooltip": "Permet une meilleure expérience avec les barres",
-
   "skyblocker.update.update_message": "§b[§6Skyblocker§b] §2Une nouvelle version est disponible !",
   "skyblocker.update.update_link": " §2§nCliquez ici§r",
   "skyblocker.update.update_message_end": " §apour découvrir les dernières fonctionnalités.",
   "skyblocker.update.hover_text": "Ouvrir Modrinth",
   "text.autoconfig.skyblocker.option.general.enableUpdateNotification": "Notification de mise à jour",
-
   "skyblocker.api.got_key": "§b[§6Skyblocker§b] §2Votre clé d'API a été automatiquement définie!"
 }

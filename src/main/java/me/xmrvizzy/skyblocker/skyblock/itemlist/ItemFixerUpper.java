@@ -210,7 +210,8 @@ public class ItemFixerUpper {
         if (id.equals("minecraft:stonebrick")) return STONE_BRICK_VARIANTS[damage];
         if (id.equals("minecraft:red_flower")) return RED_FLOWER_VARIANTS[damage];
         if (id.equals("minecraft:double_plant")) return DOUBLE_PLANT_VARIANTS[damage];
-        if (id.equals("minecraft:spawn_egg")) return SPAWN_EGG_VARIANTS.getOrDefault(damage, "minecraft:ghast_spawn_egg");
+        if (id.equals("minecraft:spawn_egg"))
+            return SPAWN_EGG_VARIANTS.getOrDefault(damage, "minecraft:ghast_spawn_egg");
         if (id.equals("minecraft:banner")) return "minecraft:" + BLOCK_COLORS[15 - damage] + "banner";
         if (id.equals("minecraft:skull")) return SKULL_VARIANTS[damage];
         if (id.equals("minecraft:fish")) return FISH_VARIANTS[damage];

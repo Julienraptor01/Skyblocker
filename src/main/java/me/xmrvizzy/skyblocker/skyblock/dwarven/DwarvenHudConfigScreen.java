@@ -14,6 +14,7 @@ public class DwarvenHudConfigScreen extends Screen {
 
     private int hudX = SkyblockerConfig.get().locations.dwarvenMines.dwarvenHud.x;
     private int hudY = SkyblockerConfig.get().locations.dwarvenMines.dwarvenHud.y;
+
     protected DwarvenHudConfigScreen(Text title) {
         super(title);
     }

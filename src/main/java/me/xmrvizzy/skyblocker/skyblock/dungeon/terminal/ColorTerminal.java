@@ -36,16 +36,16 @@ public class ColorTerminal extends ContainerSolver {
         trimEdges(slots, 6);
         List<ColorHighlight> highlights = new ArrayList<>();
         String colorString = groups[0];
-        if(targetColor == null) {
+        if (targetColor == null) {
             targetColor = colorFromName.get(colorString);
-            if(targetColor == null) {
+            if (targetColor == null) {
                 LOGGER.error("[Skyblocker] Couldn't find dye color corresponding to \"" + colorString + "\"");
                 return Collections.emptyList();
             }
         }
-        for(Map.Entry<Integer, ItemStack> slot : slots.entrySet()) {
+        for (Map.Entry<Integer, ItemStack> slot : slots.entrySet()) {
             ItemStack itemStack = slot.getValue();
-            if(!itemStack.hasEnchantments() && targetColor.equals(itemColor.get(itemStack.getItem())))
+            if (!itemStack.hasEnchantments() && targetColor.equals(itemColor.get(itemStack.getItem())))
                 highlights.add(new ColorHighlight(slot.getKey(), GREEN_HIGHLIGHT));
         }
         return highlights;

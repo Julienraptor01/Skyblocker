@@ -89,5 +89,6 @@ public class StatusBarTracker {
         return res.isEmpty() ? null : res;
     }
 
-    public record Resource(int value, int max, int overflow) {}
+    public record Resource(int value, int max, int overflow) {
+    }
 }

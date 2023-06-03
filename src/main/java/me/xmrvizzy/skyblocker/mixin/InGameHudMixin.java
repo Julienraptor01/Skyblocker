@@ -74,8 +74,8 @@ public abstract class InGameHudMixin extends DrawableHelper {
     public void renderHotbarItem(int i, int j, float f, PlayerEntity player, ItemStack stack, int seed, CallbackInfo ci) {
         if (Utils.isOnSkyblock) {
             if (HotbarSlotLock.isLocked(hotbarSlotIndex)) {
-                RenderSystem.setShaderTexture(0,SLOT_LOCK);
-                this.drawTexture(hotbarMatrices, i, j, 0, 0,16, 16);
+                RenderSystem.setShaderTexture(0, SLOT_LOCK);
+                this.drawTexture(hotbarMatrices, i, j, 0, 0, 16, 16);
             }
             hotbarSlotIndex++;
         }
@@ -89,9 +89,9 @@ public abstract class InGameHudMixin extends DrawableHelper {
 
     @Inject(method = "renderStatusBars", at = @At("HEAD"), cancellable = true)
     private void renderStatusBars(MatrixStack matrices, CallbackInfo ci) {
-        if(!Utils.isOnSkyblock)
+        if (!Utils.isOnSkyblock)
             return;
-        if(statusBars.render(matrices, scaledWidth, scaledHeight))
+        if (statusBars.render(matrices, scaledWidth, scaledHeight))
             ci.cancel();
 
         if (Utils.isInDungeons && SkyblockerConfig.get().locations.dungeons.enableMap)

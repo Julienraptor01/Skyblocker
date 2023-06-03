@@ -16,7 +16,7 @@ public record PlayerProfiles(HashMap<String, PlayerProfile> profiles) {
             Items items,
             Data data
 
-    ){
+    ) {
         public record Data(
                 Stats stats,
                 @SerializedName("fairy_bonus") Stats fairyBonus,
@@ -57,7 +57,7 @@ public record PlayerProfiles(HashMap<String, PlayerProfile> profiles) {
                 @SerializedName("last_updated") LastUpdated lastUpdated,
                 @SerializedName("first_join") LastUpdated firstJoin
 
-        ){
+        ) {
             public record Stats(
                     int health,
                     int defense,
@@ -80,8 +80,12 @@ public record PlayerProfiles(HashMap<String, PlayerProfile> profiles) {
                     int pristine,
                     int damage,
                     @SerializedName("damage_increase") double damageIncrease
-            ){}
-            public record FairySouls(int collected, int total, double progress){}
+            ) {
+            }
+
+            public record FairySouls(int collected, int total, double progress) {
+            }
+
             public record Level(
                     Double xp,
                     Integer level,
@@ -94,17 +98,29 @@ public record PlayerProfiles(HashMap<String, PlayerProfile> profiles) {
                     Integer rank,
                     Double levelWithProgress,
                     Double unlockableLevelWithProgress
-            ){}
-            public record Entity(String type, String entityId, int amount, String entityName){}
-            public record SkinData(@SerializedName("skinurl") String skinUrl, String model){}
-            public record Profile(String gamemode){}
+            ) {
+            }
+
+            public record Entity(String type, String entityId, int amount, String entityName) {
+            }
+
+            public record SkinData(@SerializedName("skinurl") String skinUrl, String model) {
+            }
+
+            public record Profile(String gamemode) {
+            }
+
             public record Member(
                     String uuid,
                     @SerializedName("display_name") String displayName,
                     @SerializedName("last_updated") LastUpdated lastUpdated,
                     @SerializedName("skin_data") SkinData skinData
-            ){}
-            public record LastUpdated(long unix, String text){}
+            ) {
+            }
+
+            public record LastUpdated(long unix, String text) {
+            }
+
             public record Minion(
                     String id,
                     String type,
@@ -112,11 +128,17 @@ public record PlayerProfiles(HashMap<String, PlayerProfile> profiles) {
                     String name,
                     Integer[] levels
 
-            ){}
-            public record MinionSlots(int currentSlots, int toNext, int toNextSlot){}
-            public record Collection(int tier, long amount, long totalAmount, UserAmount[] amounts){
-                public record UserAmount(String username, long amount){}
+            ) {
             }
+
+            public record MinionSlots(int currentSlots, int toNext, int toNextSlot) {
+            }
+
+            public record Collection(int tier, long amount, long totalAmount, UserAmount[] amounts) {
+                public record UserAmount(String username, long amount) {
+                }
+            }
+
             public record Social(
                     @SerializedName("DISCORD") String discord,
                     @SerializedName("HYPIXEL") String hypixel,
@@ -124,14 +146,18 @@ public record PlayerProfiles(HashMap<String, PlayerProfile> profiles) {
                     @SerializedName("YOUTUBE") String youtube,
                     @SerializedName("INSTAGRAM") String instagram,
                     @SerializedName("TWITCH") String twitch
-            ){}
+            ) {
+            }
+
             public record Fishing(
                     int total,
                     int treasure,
                     @SerializedName("treasure_large") int treasureLarge,
                     @SerializedName("shredder_fished") int shredderFished,
                     @SerializedName("shredder_bait") int shredderBait
-            ){}
+            ) {
+            }
+
             public record Auctions(
                     int uncommon,
                     int rare,
@@ -139,7 +165,8 @@ public record PlayerProfiles(HashMap<String, PlayerProfile> profiles) {
                     int common,
                     int legendary,
                     int special
-            ){}
+            ) {
+            }
         }
 
     }

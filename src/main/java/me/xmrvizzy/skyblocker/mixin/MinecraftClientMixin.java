@@ -18,7 +18,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
 
-    @Shadow @Nullable public ClientPlayerEntity player;
+    @Shadow
+    @Nullable
+    public ClientPlayerEntity player;
 
     @Inject(method = "tick", at = @At("HEAD"))
     public void tick(CallbackInfo ci) {
@@ -33,7 +35,7 @@ public class MinecraftClientMixin {
     @Inject(method = "setScreen", at = @At("HEAD"))
     public void onSetScreen(Screen screen, CallbackInfo ci) {
         ContainerSolverManager manager = SkyblockerMod.getInstance().containerSolverManager;
-        if(Utils.isOnSkyblock && screen instanceof GenericContainerScreen)
+        if (Utils.isOnSkyblock && screen instanceof GenericContainerScreen)
             manager.onSetScreen((GenericContainerScreen) screen);
         else
             manager.clearScreen();

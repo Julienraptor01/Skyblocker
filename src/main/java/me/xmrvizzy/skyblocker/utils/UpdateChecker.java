@@ -26,20 +26,21 @@ public class UpdateChecker {
     public static Matcher matcher;
     public static VersionNumber localVersion = null;
     public static VersionNumber latestVersion = null;
-    public static boolean shouldUpdate(){
-        if (SkyblockerConfig.get().general.enableUpdateNotification){
+
+    public static boolean shouldUpdate() {
+        if (SkyblockerConfig.get().general.enableUpdateNotification) {
             new Thread(() -> {
-                try{
+                try {
                     URL url = new URL("https://api.modrinth.com/v2/project/skyblocker-liap/version");
 
                     InputStreamReader reader = new InputStreamReader(url.openStream());
                     JsonObject versionJson = new Gson().fromJson(reader, JsonElement.class).getAsJsonArray().get(0).getAsJsonObject();
                     matcher = pattern.matcher(versionJson.get("version_number").getAsString());
-                    if (matcher.find()){
+                    if (matcher.find()) {
                         latestVersion = VersionNumber.parse(matcher.group(1) + "." + matcher.group(2) + "." + matcher.group(3));
                     }
                     matcher = localPattern.matcher(FabricLoader.getInstance().getModContainer(SkyblockerMod.NAMESPACE).get().getMetadata().getVersion().getFriendlyString());
-                    if (matcher.find()){
+                    if (matcher.find()) {
                         localVersion = VersionNumber.parse(matcher.group(1) + "." + matcher.group(2) + "." + matcher.group(3));
                     }
                     if (localVersion != null && latestVersion != null)
@@ -53,7 +54,7 @@ public class UpdateChecker {
         return shouldUpdate;
     }
 
-    public static void init(){
+    public static void init() {
         SkyblockEvents.JOIN.register(() -> {
             if (shouldUpdate()) {
                 MutableText linkMessage = Text.translatable("skyblocker.update.update_message");

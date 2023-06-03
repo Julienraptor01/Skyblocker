@@ -11,7 +11,9 @@ import java.util.Map;
 
 public class CroesusHelper extends ContainerSolver {
 
-    public CroesusHelper() { super("^Croesus$"); }
+    public CroesusHelper() {
+        super("^Croesus$");
+    }
 
     @Override
     public boolean isEnabled() {

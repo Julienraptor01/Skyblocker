@@ -265,7 +265,7 @@ public class PriceInfoTooltip {
             String priceString = String.format(Locale.ENGLISH, "%1$,.1f", price * count);
             MutableText priceText = Text.literal(priceString + " Coins ").formatted(Formatting.DARK_AQUA);
             priceString = String.format(Locale.ENGLISH, "%1$,.1f", price);
-            MutableText priceText2 =  Text.literal( "(" + priceString + " each)").formatted(Formatting.GRAY);
+            MutableText priceText2 = Text.literal("(" + priceString + " each)").formatted(Formatting.GRAY);
             return priceText.append(priceText2);
         }
     }
@@ -296,6 +296,7 @@ public class PriceInfoTooltip {
     // If these options is true beforehand, the client will get first data of these options while loading.
     // After then, it will only fetch the data if it is on Skyblock.
     public static int minute = -1;
+
     public static void init() {
         skyblocker.scheduler.scheduleCyclic(() -> {
             if (!Utils.isOnSkyblock && 0 < minute++) {

@@ -2,9 +2,7 @@
   "key.categories.skyblocker": "Skyblocker",
   "key.hotbarSlotLock": "锁定快捷栏",
   "key.wikiLookup": "查阅Wiki",
-
   "text.autoconfig.skyblocker.title": "Skyblocker设置",
-
   "text.autoconfig.skyblocker.category.general": "通用",
   "text.autoconfig.skyblocker.option.general.bars": "生命，法力，防御以及经验条",
   "text.autoconfig.skyblocker.option.general.bars.enableBars": "启用属性条",
@@ -29,32 +27,28 @@
   "text.autoconfig.skyblocker.option.general.hitbox.oldLeverHitbox": "启用1.8的拉杆碰撞箱",
   "skyblocker.itemTooltip.nullMessage": "§b[§6Skyblocker§b] §c物品提示里的价格信息会在最多60秒内更新。如果没有，请检查latest.log",
   "skyblocker.itemTooltip.noData": "§c没有数据",
-
   "text.autoconfig.skyblocker.category.richPresence": "Discord活动状态",
   "text.autoconfig.skyblocker.option.richPresence.info": "Skyblock信息",
   "text.autoconfig.skyblocker.option.richPresence.info.@Tooltip": "如果您正在循环模式，这个值将不会生效",
   "text.autoconfig.skyblocker.option.richPresence.cycleMode": "循环Skyblock信息",
   "text.autoconfig.skyblocker.option.richPresence.enableRichPresence": "已启用",
   "text.autoconfig.skyblocker.option.richPresence.customMessage": "自定义消息",
-
-  "text.autoconfig.skyblocker.category.quickNav" : "快速导航",
-  "text.autoconfig.skyblocker.option.quickNav.enableQuickNav" : "启用快速导航",
-  "text.autoconfig.skyblocker.option.quickNav.button1" : "按钮1",
-  "text.autoconfig.skyblocker.option.quickNav.button2" : "按钮2",
-  "text.autoconfig.skyblocker.option.quickNav.button3" : "按钮3",
-  "text.autoconfig.skyblocker.option.quickNav.button4" : "按钮4",
-  "text.autoconfig.skyblocker.option.quickNav.button5" : "按钮5",
-  "text.autoconfig.skyblocker.option.quickNav.button6" : "按钮6",
-  "text.autoconfig.skyblocker.option.quickNav.button7" : "按钮7",
-  "text.autoconfig.skyblocker.option.quickNav.button8" : "按钮8",
-  "text.autoconfig.skyblocker.option.quickNav.button9" : "按钮9",
-  "text.autoconfig.skyblocker.option.quickNav.button10" : "按钮10",
-  "text.autoconfig.skyblocker.option.quickNav.button11" : "按钮11",
-  "text.autoconfig.skyblocker.option.quickNav.button12" : "按钮12",
-  
+  "text.autoconfig.skyblocker.category.quickNav": "快速导航",
+  "text.autoconfig.skyblocker.option.quickNav.enableQuickNav": "启用快速导航",
+  "text.autoconfig.skyblocker.option.quickNav.button1": "按钮1",
+  "text.autoconfig.skyblocker.option.quickNav.button2": "按钮2",
+  "text.autoconfig.skyblocker.option.quickNav.button3": "按钮3",
+  "text.autoconfig.skyblocker.option.quickNav.button4": "按钮4",
+  "text.autoconfig.skyblocker.option.quickNav.button5": "按钮5",
+  "text.autoconfig.skyblocker.option.quickNav.button6": "按钮6",
+  "text.autoconfig.skyblocker.option.quickNav.button7": "按钮7",
+  "text.autoconfig.skyblocker.option.quickNav.button8": "按钮8",
+  "text.autoconfig.skyblocker.option.quickNav.button9": "按钮9",
+  "text.autoconfig.skyblocker.option.quickNav.button10": "按钮10",
+  "text.autoconfig.skyblocker.option.quickNav.button11": "按钮11",
+  "text.autoconfig.skyblocker.option.quickNav.button12": "按钮12",
   "text.autoconfig.skyblocker.option.general.itemList": "物品列表",
   "text.autoconfig.skyblocker.option.general.itemList.enableItemList": "启用物品列表",
-
   "text.autoconfig.skyblocker.category.locations": "位置",
   "text.autoconfig.skyblocker.option.locations.dungeons": "地牢",
   "text.autoconfig.skyblocker.option.locations.dungeons.croesusHelper": "Croesus助手",
@@ -76,7 +70,6 @@
   "text.autoconfig.skyblocker.option.locations.dwarvenMines.dwarvenHud.enableBackground": "启用背景",
   "text.autoconfig.skyblocker.option.locations.dwarvenMines.dwarvenHud.x": "X",
   "text.autoconfig.skyblocker.option.locations.dwarvenMines.dwarvenHud.y": "Y",
-
   "text.autoconfig.skyblocker.category.messages": "消息",
   "text.autoconfig.skyblocker.option.messages.hideAbility": "隐藏技能冷却",
   "text.autoconfig.skyblocker.option.messages.hideHeal": "隐藏治疗消息",
@@ -89,12 +82,10 @@
   "text.autoconfig.skyblocker.option.messages.hideAutopet": "隐藏自动宠物消息",
   "text.autoconfig.skyblocker.option.messages.hideMana": "在动作栏中隐藏魔力消耗信息",
   "text.autoconfig.skyblocker.option.messages.hideMana.@Tooltip": "被已经提供了更好方案的属性条代替",
-
   "skyblocker.update.update_message": "§b[§6Skyblocker§b] §2有新版本可用！",
   "skyblocker.update.update_link": " §2§n点击这里§r",
-  "skyblocker.update.update_message_end" : " §a来了解最新功能",
+  "skyblocker.update.update_message_end": " §a来了解最新功能",
   "skyblocker.update.hover_text": "打开Modrinth",
   "text.autoconfig.skyblocker.option.general.enableUpdateNotification": "更新通知",
-
   "skyblocker.api.got_key": "§b[§6Skyblocker§b] §2自动设置你的API秘钥！"
 }

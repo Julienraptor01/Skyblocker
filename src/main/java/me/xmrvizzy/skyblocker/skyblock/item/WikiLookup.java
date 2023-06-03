@@ -22,7 +22,7 @@ public class WikiLookup {
     static String id;
     public static Gson gson = new Gson();
 
-    public static void init(){
+    public static void init() {
         wikiLookup = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.wikiLookup",
                 InputUtil.Type.KEYSYM,

@@ -1,13 +1,10 @@
 {
   "key.categories.skyblocker": "Skyblocker",
   "key.hotbarSlotLock": "Schlitzsperre (Hotbar)",
-
   "text.autoconfig.skyblocker.title": "Skyblocker-Einstellungen",
-
   "text.autoconfig.skyblocker.category.general": "Allgemein",
   "text.autoconfig.skyblocker.option.general.bars": "Gesundheits-, Mana-, Verteidigungs- und XP-Balken",
   "text.autoconfig.skyblocker.option.general.bars.enableBars": "Balken aktivieren",
-
   "text.autoconfig.skyblocker.category.locations": "Standorte",
   "text.autoconfig.skyblocker.option.locations.dungeons": "Dungeons",
   "text.autoconfig.skyblocker.option.locations.dungeons.enableMap": "Karte aktivieren",
@@ -22,7 +19,6 @@
   "text.autoconfig.skyblocker.option.locations.dwarvenMines.enableDrillFuel": "Bohrtreibstoff aktivieren",
   "text.autoconfig.skyblocker.option.locations.dwarvenMines.solveFetchur": "Löse Fetchur",
   "text.autoconfig.skyblocker.option.locations.dwarvenMines.solvePuzzler": "Puzzler-Rätsel lösen",
-
   "text.autoconfig.skyblocker.category.messages": "Nachrichten",
   "text.autoconfig.skyblocker.option.messages.hideAbility": "Abklingzeit der Fähigkeit nachricht verbergen",
   "text.autoconfig.skyblocker.option.messages.hideHeal": "Heilungsnachrichten verbergen",

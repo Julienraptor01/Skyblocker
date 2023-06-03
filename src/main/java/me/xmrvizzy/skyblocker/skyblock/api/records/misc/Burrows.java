@@ -7,7 +7,7 @@ public record Burrows(
         @SerializedName("dug_combat") Rarities dugCombat,
         @SerializedName("dug_treasure") Rarities dugTreasure,
         @SerializedName("chains_complete") Rarities chainsComplete
-){
+) {
     public record Rarities(
             int total,
             @SerializedName("null") int common,
@@ -15,5 +15,6 @@ public record Burrows(
             int rare,
             int epic,
             int legendary
-    ){}
+    ) {
+    }
 }

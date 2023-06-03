@@ -15,7 +15,7 @@ import net.minecraft.screen.AbstractRecipeScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
-@Environment(value= EnvType.CLIENT)
+@Environment(value = EnvType.CLIENT)
 public class ItemListWidget extends RecipeBookWidget implements Drawable, Selectable {
     private int parentWidth;
     private int parentHeight;
@@ -23,10 +23,12 @@ public class ItemListWidget extends RecipeBookWidget implements Drawable, Select
     private TextFieldWidget searchField;
     private SearchResultsWidget results;
 
-    public ItemListWidget() { super(); }
+    public ItemListWidget() {
+        super();
+    }
 
     public void updateSearchResult() {
-        this.results.updateSearchResult(((RecipeBookWidgetAccessor)this).getSearchText());
+        this.results.updateSearchResult(((RecipeBookWidgetAccessor) this).getSearchText());
     }
 
     @Override
@@ -35,10 +37,10 @@ public class ItemListWidget extends RecipeBookWidget implements Drawable, Select
         this.parentWidth = parentWidth;
         this.parentHeight = parentHeight;
         this.leftOffset = narrow ? 0 : 86;
-        this.searchField = ((RecipeBookWidgetAccessor)this).getSearchField();
+        this.searchField = ((RecipeBookWidgetAccessor) this).getSearchField();
         int x = (this.parentWidth - 147) / 2 - this.leftOffset;
         int y = (this.parentHeight - 166) / 2;
-        this.results = new SearchResultsWidget(this.client, x , y);
+        this.results = new SearchResultsWidget(this.client, x, y);
         this.updateSearchResult();
     }
 
@@ -50,11 +52,11 @@ public class ItemListWidget extends RecipeBookWidget implements Drawable, Select
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderTexture(0, TEXTURE);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            this.searchField = ((RecipeBookWidgetAccessor)this).getSearchField();
+            this.searchField = ((RecipeBookWidgetAccessor) this).getSearchField();
             int i = (this.parentWidth - 147) / 2 - this.leftOffset;
             int j = (this.parentHeight - 166) / 2;
             this.drawTexture(matrices, i, j, 1, 1, 147, 166);
-            this.searchField = ((RecipeBookWidgetAccessor)this).getSearchField();
+            this.searchField = ((RecipeBookWidgetAccessor) this).getSearchField();
             if (!this.searchField.isFocused() && this.searchField.getText().isEmpty()) {
                 Text hintText = (Text.translatable("gui.recipebook.search_hint")).formatted(Formatting.ITALIC).formatted(Formatting.GRAY);
                 drawTextWithShadow(matrices, this.client.textRenderer, hintText, i + 25, j + 14, -1);

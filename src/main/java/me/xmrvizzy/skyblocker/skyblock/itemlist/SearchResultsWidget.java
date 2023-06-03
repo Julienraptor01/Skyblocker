@@ -79,9 +79,9 @@ public class SearchResultsWidget implements Drawable {
             Recipe recipe = this.recipeResults.get(this.currentPage);
             for (ResultButtonWidget button : resultButtons)
                 button.clearItemStack();
-            resultButtons.get( 5).setItemStack(recipe.grid.get(0));
-            resultButtons.get( 6).setItemStack(recipe.grid.get(1));
-            resultButtons.get( 7).setItemStack(recipe.grid.get(2));
+            resultButtons.get(5).setItemStack(recipe.grid.get(0));
+            resultButtons.get(6).setItemStack(recipe.grid.get(1));
+            resultButtons.get(7).setItemStack(recipe.grid.get(2));
             resultButtons.get(10).setItemStack(recipe.grid.get(3));
             resultButtons.get(11).setItemStack(recipe.grid.get(4));
             resultButtons.get(12).setItemStack(recipe.grid.get(5));

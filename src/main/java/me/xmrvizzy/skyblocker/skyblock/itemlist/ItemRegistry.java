@@ -159,9 +159,8 @@ class Recipe {
                 itemStack.setCount(count);
                 return itemStack;
             }
-        }
-        catch(Exception e) {
-            LOGGER.error("[Skyblocker-Recipe] "+internalName,e);
+        } catch (Exception e) {
+            LOGGER.error("[Skyblocker-Recipe] " + internalName, e);
         }
         return Items.AIR.getDefaultStack();
     }

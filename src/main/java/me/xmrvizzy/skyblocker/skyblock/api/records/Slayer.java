@@ -14,8 +14,10 @@ public record Slayer(
         @SerializedName("boss_kills_tier_1") int bossKillsTier1,
         @SerializedName("boss_kills_tier_2") int bossKillsTier2,
         @SerializedName("boss_kills_tier_3") int bossKillsTier3
-){
-    public record Kills(@Nullable HashMap<String, Integer> kills){}
+) {
+    public record Kills(@Nullable HashMap<String, Integer> kills) {
+    }
+
     public record ClaimedLevels(
             @SerializedName("level_1") boolean level1,
             @SerializedName("level_2") boolean level2,
@@ -24,6 +26,7 @@ public record Slayer(
             @SerializedName("level_5") boolean level5,
             @SerializedName("level_6") boolean level6,
             @SerializedName("level_7_special") boolean level7
-    ){}
+    ) {
+    }
 
 }

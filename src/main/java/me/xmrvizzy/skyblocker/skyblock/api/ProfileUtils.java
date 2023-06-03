@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class ProfileUtils {
-    public static PlayerProfiles getProfiles(String name){
+    public static PlayerProfiles getProfiles(String name) {
         try {
             URL url = new URL("https://sky.shiiyu.moe/api/v2/profile/" + name);
             InputStreamReader reader = new InputStreamReader(url.openStream());
@@ -34,11 +34,11 @@ public class ProfileUtils {
         return null;
     }
 
-    public static List<ItemStack> itemsFromApiInventory(me.xmrvizzy.skyblocker.skyblock.api.records.Items.Item[] items){
+    public static List<ItemStack> itemsFromApiInventory(me.xmrvizzy.skyblocker.skyblock.api.records.Items.Item[] items) {
         List<ItemStack> inventory = new ArrayList<>();
-        for (me.xmrvizzy.skyblocker.skyblock.api.records.Items.Item item : items){
-            try{
-                if (item.tag() != null){
+        for (me.xmrvizzy.skyblocker.skyblock.api.records.Items.Item item : items) {
+            try {
+                if (item.tag() != null) {
                     JsonObject obj = new Gson().fromJson(Files.readString(Path.of("./config/skyblocker/items-repo/items/" + item.tag().extraAttributes().id() + ".json")), JsonObject.class);
 
                     NbtCompound root = new NbtCompound();
@@ -47,7 +47,7 @@ public class ProfileUtils {
                     NbtCompound tag = new NbtCompound();
                     root.put("tag", tag);
 
-                    if (item.tag().ench() != null){
+                    if (item.tag().ench() != null) {
                         NbtList enchantments = new NbtList();
                         enchantments.add(new NbtCompound());
                         tag.put("Enchantments", enchantments);
@@ -56,10 +56,10 @@ public class ProfileUtils {
                     NbtCompound extraAttributes = new NbtCompound();
                     tag.put("ExtraAttributes", extraAttributes);
                     extraAttributes.put("id", NbtString.of(item.tag().extraAttributes().id()));
-                    if (item.tag().extraAttributes().enchantments() != null){
+                    if (item.tag().extraAttributes().enchantments() != null) {
                         NbtCompound enchantments = new NbtCompound();
                         extraAttributes.put("enchantments", enchantments);
-                        for (String enchant : item.tag().extraAttributes().enchantments().keySet()){
+                        for (String enchant : item.tag().extraAttributes().enchantments().keySet()) {
                             enchantments.put(enchant, NbtInt.of(item.tag().extraAttributes().enchantments().get(enchant)));
                         }
                     }
@@ -67,7 +67,7 @@ public class ProfileUtils {
                     NbtCompound display = new NbtCompound();
                     tag.put("display", display);
                     display.put("Name", NbtString.of(Text.Serializer.toJson(Text.of(item.tag().display().name()))));
-                    if (item.tag().display().lore() != null){
+                    if (item.tag().display().lore() != null) {
                         NbtList lore = new NbtList();
                         display.put("Lore", lore);
                         for (int i = 0; i < item.tag().display().lore().length; i++) {
@@ -75,11 +75,11 @@ public class ProfileUtils {
                                 lore.add(i, NbtString.of(Text.Serializer.toJson(Text.of(Arrays.stream(item.tag().display().lore()).toArray()[i].toString()))));
                         }
                     }
-                    if (item.tag().display().color() != null){
+                    if (item.tag().display().color() != null) {
                         display.put("color", NbtInt.of(item.tag().display().color()));
                     }
 
-                    if (item.tag().skullOwner() != null){
+                    if (item.tag().skullOwner() != null) {
                         NbtCompound skullOwner = new NbtCompound();
                         tag.put("SkullOwner", skullOwner);
                         UUID uuid = UUID.fromString(item.tag().skullOwner().id());

@@ -52,7 +52,7 @@ public class Utils {
         String location = null;
         List<String> sidebarLines = getSidebar();
         try {
-            if( sidebarLines != null) {
+            if (sidebarLines != null) {
                 for (String sidebarLine : sidebarLines) {
                     if (sidebarLine.contains("⏣")) location = sidebarLine;
                 }

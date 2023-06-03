@@ -34,7 +34,6 @@ public class Reparty extends ChatPatternListener {
         })));
 
 
-
     }
 
     @Override

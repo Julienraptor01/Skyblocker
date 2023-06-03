@@ -23,7 +23,7 @@ public record Items(
         @SerializedName("highest_rarity_bow") Item highestRarityBow,
         @SerializedName("highest_rarity_rod") Item highestRarityRod,
         @SerializedName("armor_set_rarity") String armorSetRarity
-){
+) {
     public record Item(
             @SerializedName("Count") byte count,
             int damage,
@@ -31,22 +31,30 @@ public record Items(
             boolean isInactive,
             boolean inBackpack,
             Item[] containsItems
-    ){
+    ) {
         public record Tag(
                 @SerializedName("ExtraAttributes") ExtraAttributes extraAttributes,
                 Display display,
                 @SerializedName("SkullOwner") SkullOwner skullOwner,
                 Enchant[] ench
-        ){
-            public record ExtraAttributes(String id, HashMap<String, Integer> enchantments){}
-            public record Display(@SerializedName("Name") String name, @SerializedName("Lore") String[] lore, Integer color){}
+        ) {
+            public record ExtraAttributes(String id, HashMap<String, Integer> enchantments) {
+            }
+
+            public record Display(@SerializedName("Name") String name, @SerializedName("Lore") String[] lore,
+                                  Integer color) {
+            }
+
             public record SkullOwner(
                     @SerializedName("Id") String id,
                     @SerializedName("Properties") Properties properties
-            ){
-                public record Properties(HashMap<String, String>[] textures){}
+            ) {
+                public record Properties(HashMap<String, String>[] textures) {
+                }
             }
-            public record Enchant(int lvl, int id){}
+
+            public record Enchant(int lvl, int id) {
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ public record Floor(
         @SerializedName("most_damage") MostDamage mostDamage,
         Bonuses bonuses
 
-){
+) {
     public record Stats(
             @SerializedName("times_played") int timesPlayed,
             @SerializedName("best_score") int bestScore,
@@ -19,11 +19,15 @@ public record Floor(
             @SerializedName("fastest_time") long fastestTime,
             @SerializedName("watcher_kills") int watcherKills,
             @SerializedName("best_runs") Run[] bestRuns
-    ){}
+    ) {
+    }
+
     public record MostDamage(
             @SerializedName("class") String classUsed,
             @SerializedName("value") double damage
-    ){}
+    ) {
+    }
+
     public record Run(
             long timestamp,
             @SerializedName("score_exploration") int scoreExploration,
@@ -39,6 +43,9 @@ public record Floor(
             @SerializedName("secrets_found") int secretsFound,
             @SerializedName("damage_mitigated") double damageMitigated,
             @SerializedName("ally_healing") int allyHealing
-    ){}
-    public record Bonuses(@SerializedName("item_boost") int itemBoost){}
+    ) {
+    }
+
+    public record Bonuses(@SerializedName("item_boost") int itemBoost) {
+    }
 }

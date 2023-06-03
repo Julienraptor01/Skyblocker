@@ -8,10 +8,13 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface HandledScreenAccessor {
     @Accessor
     int getX();
+
     @Accessor
     int getY();
+
     @Accessor
     int getBackgroundWidth();
+
     @Accessor
     int getBackgroundHeight();
 }

@@ -25,20 +25,21 @@ public class DwarvenHud {
 
 
     public static final List<Pattern> COMMISSIONS = Stream.of(
-            "(?:Titanium|Mithril|Hard Stone) Miner",
-            "(?:Ice Walker|Goblin|Goblin Raid|Automaton|Sludge|Team Treasurite Member|Yog|Boss Corleone|Thyst) Slayer",
-            "(?:Lava Springs|Cliffside Veins|Rampart's Quarry|Upper Mines|Royal Mines) Mithril",
-            "(?:Lava Springs|Cliffside Veins|Rampart's Quarry|Upper Mines|Royal Mines) Titanium",
-            "Goblin Raid",
-            "(?:Powder Ghast|Star Sentry) Puncher",
-            "(?<!Lucky )Raffle",
-            "Lucky Raffle",
-            "2x Mithril Powder Collector",
-            "(?:Ruby|Amber|Sapphire|Jade|Amethyst|Topaz) Gemstone Collector",
-            "(?:Amber|Sapphire|Jade|Amethyst|Topaz) Crystal Hunter",
-            "Chest Looter"
+                    "(?:Titanium|Mithril|Hard Stone) Miner",
+                    "(?:Ice Walker|Goblin|Goblin Raid|Automaton|Sludge|Team Treasurite Member|Yog|Boss Corleone|Thyst) Slayer",
+                    "(?:Lava Springs|Cliffside Veins|Rampart's Quarry|Upper Mines|Royal Mines) Mithril",
+                    "(?:Lava Springs|Cliffside Veins|Rampart's Quarry|Upper Mines|Royal Mines) Titanium",
+                    "Goblin Raid",
+                    "(?:Powder Ghast|Star Sentry) Puncher",
+                    "(?<!Lucky )Raffle",
+                    "Lucky Raffle",
+                    "2x Mithril Powder Collector",
+                    "(?:Ruby|Amber|Sapphire|Jade|Amethyst|Topaz) Gemstone Collector",
+                    "(?:Amber|Sapphire|Jade|Amethyst|Topaz) Crystal Hunter",
+                    "Chest Looter"
             ).map(s -> Pattern.compile("^.*(" + s + "): (\\d+\\.?\\d*%|DONE)"))
             .collect(Collectors.toList());
+
     public static void init() {
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(ClientCommandManager.literal("skyblocker")
                 .then(ClientCommandManager.literal("hud")
@@ -49,13 +50,14 @@ public class DwarvenHud {
                                 })))));
 
         HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
-            if (!SkyblockerConfig.get().locations.dwarvenMines.dwarvenHud.enabled || client.player == null || commissionList.isEmpty()) return;
+            if (!SkyblockerConfig.get().locations.dwarvenMines.dwarvenHud.enabled || client.player == null || commissionList.isEmpty())
+                return;
             render(matrixStack, SkyblockerConfig.get().locations.dwarvenMines.dwarvenHud.x, SkyblockerConfig.get().locations.dwarvenMines.dwarvenHud.y, commissionList);
         });
     }
 
     public static void render(MatrixStack matrixStack, int hudX, int hudY, List<Commission> commissions) {
-        if (commissions.size() > 0){
+        if (commissions.size() > 0) {
             if (SkyblockerConfig.get().locations.dwarvenMines.dwarvenHud.enableBackground)
                 DrawableHelper.fill(matrixStack, hudX, hudY, hudX + 200, hudY + (20 * commissions.size()), 0x64000000);
             int y = 0;
@@ -83,11 +85,11 @@ public class DwarvenHud {
         });
     }
 
-    public static class Commission{
+    public static class Commission {
         String commission;
         String progression;
 
-        public Commission(String commission, String progression){
+        public Commission(String commission, String progression) {
             this.commission = commission;
             this.progression = progression;
         }
