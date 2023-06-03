@@ -2,7 +2,8 @@ package me.xmrvizzy.skyblocker.chat;
 
 import java.util.regex.Matcher;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public abstract class ChatPatternListenerTest<T extends ChatPatternListener> {
     protected final T listener;
