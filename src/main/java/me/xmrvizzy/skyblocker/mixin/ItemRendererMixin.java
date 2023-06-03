@@ -27,7 +27,7 @@ public abstract class ItemRendererMixin {
     protected abstract void renderGuiQuad(BufferBuilder buffer, int x, int y, int width, int height, int red, int green, int blue, int alpha);
 
     @Inject(method = "renderGuiItemOverlay(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V", at = @At("HEAD"))
-    public void renderItemBar(TextRenderer renderer, ItemStack stack, int x, int y, @Nullable String countLabel, CallbackInfo ci) {
+    public void skyblocker$renderItemBar(TextRenderer renderer, ItemStack stack, int x, int y, @Nullable String countLabel, CallbackInfo ci) {
 
         if (Utils.isOnSkyblock && SkyblockerConfig.get().locations.dwarvenMines.enableDrillFuel) {
             if (!stack.isEmpty()) {
@@ -49,7 +49,6 @@ public abstract class ItemRendererMixin {
 
                         RenderSystem.disableDepthTest();
                         RenderSystem.disableTexture();
-//                        RenderSystem.disableAlphaTest();
                         RenderSystem.disableBlend();
                         Tessellator tessellator = Tessellator.getInstance();
                         BufferBuilder buffer = tessellator.getBuffer();
@@ -59,7 +58,6 @@ public abstract class ItemRendererMixin {
                         this.renderGuiQuad(buffer, x + 2, y + 13, 13, 2, 0, 0, 0, 255);
                         this.renderGuiQuad(buffer, x + 2, y + 13, width, 1, rgb >> 16 & 255, rgb >> 8 & 255, rgb & 255, 255);
                         RenderSystem.enableBlend();
-//                        RenderSystem.enableAlphaTest();
                         RenderSystem.enableTexture();
                         RenderSystem.enableDepthTest();
                     }
