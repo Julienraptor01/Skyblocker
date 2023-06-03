@@ -183,7 +183,7 @@ public class BackpackPreview extends DrawableHelper {
 }
 
 class DummyInventory implements Inventory {
-    private List<ItemStack> stacks;
+    private final List<ItemStack> stacks;
 
     public DummyInventory(NbtCompound root) {
         stacks = new ArrayList<>(root.getInt("size") + 9);

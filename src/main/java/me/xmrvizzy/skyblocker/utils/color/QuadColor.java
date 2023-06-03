@@ -72,9 +72,7 @@ public class QuadColor extends RenderColor {
         for (int i = 0; i < 4; i++) {
             int[] curColor = getColor(i);
 
-            for (int j = 0; j < 4; j++) {
-                outColor[i * 4 + j] = curColor[j];
-            }
+            System.arraycopy(curColor, 0, outColor, i * 4, 4);
         }
 
         return outColor;

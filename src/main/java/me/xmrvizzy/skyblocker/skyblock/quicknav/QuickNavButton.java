@@ -24,7 +24,7 @@ public class QuickNavButton extends ClickableWidget {
 
     }
 
-    private int index;
+    private final int index;
     private boolean toggled;
     private int u;
     private int v;
