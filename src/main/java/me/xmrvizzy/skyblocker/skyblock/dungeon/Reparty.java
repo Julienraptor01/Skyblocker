@@ -29,7 +29,7 @@ public class Reparty extends ChatPatternListener {
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(ClientCommandManager.literal("rp").executes(context -> {
             if (!Utils.isOnSkyblock || this.repartying || client.player == null) return 0;
             this.repartying = true;
-            client.player.sendChatMessage("/p list", Text.of("/p list"));
+            client.player.sendCommand("p list");
             return 0;
         })));
 
@@ -66,15 +66,15 @@ public class Reparty extends ChatPatternListener {
             this.repartying = false;
             return;
         }
-        sendCommand(playerEntity, "/p disband", 1);
+        sendCommand(playerEntity, "p disband", 1);
         for (int i = 0; i < this.players.length; ++i) {
-            String command = "/p invite " + this.players[i];
+            String command = "p invite " + this.players[i];
             sendCommand(playerEntity, command, i + 2);
         }
         skyblocker.scheduler.schedule(() -> this.repartying = false, this.players.length + 2);
     }
 
     private void sendCommand(ClientPlayerEntity player, String command, int delay) {
-        skyblocker.scheduler.schedule(() -> player.sendChatMessage(command, Text.of(command)), delay * BASE_DELAY);
+        skyblocker.scheduler.schedule(() -> player.sendCommand(command), delay * BASE_DELAY);
     }
 }
