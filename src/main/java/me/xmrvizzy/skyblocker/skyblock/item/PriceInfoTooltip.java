@@ -46,7 +46,6 @@ public class PriceInfoTooltip {
         if (name == null) return;
 
         int count = stack.getCount();
-        String timestamp = getTimestamp(stack);
         boolean bazaarOpened = lines.stream().anyMatch(each -> each.getString().contains("Buy price:") || each.getString().contains("Sell price:"));
 
         if (SkyblockerConfig.get().general.itemTooltip.enableNPCPrice) {
@@ -65,12 +64,12 @@ public class PriceInfoTooltip {
                 nullWarning();
             } else if (bazaarPricesJson.has(name)) {
                 JsonObject getItem = bazaarPricesJson.getAsJsonObject(name);
-                lines.add(Text.literal(String.format("%-18s", "Bazaar buy Price:"))
+                lines.add(Text.literal(String.format("%-18s", "Bazaar Buy Price:"))
                         .formatted(Formatting.GOLD)
                         .append(getItem.get("buyPrice").isJsonNull()
                                 ? Text.literal("No data").formatted(Formatting.RED)
                                 : getCoinsMessage(getItem.get("buyPrice").getAsDouble(), count)));
-                lines.add(Text.literal(String.format("%-19s", "Bazaar sell Price:"))
+                lines.add(Text.literal(String.format("%-19s", "Bazaar Sell Price:"))
                         .formatted(Formatting.GOLD)
                         .append(getItem.get("sellPrice").isJsonNull()
                                 ? Text.literal("No data").formatted(Formatting.RED)
@@ -93,10 +92,10 @@ public class PriceInfoTooltip {
         if (SkyblockerConfig.get().general.itemTooltip.enableAvgBIN) {
             if (threeDayAvgPricesJson == null || oneDayAvgPricesJson == null) {
                 nullWarning();
-            } else if (threeDayAvgPricesJson.has(name) || oneDayAvgPricesJson.has(name)) {
+            } else {
                 /*
-                  We are skipping check average prices for potions and runes
-                  because there is no data for their in API.
+                  We are skipping check average prices for potions, runes
+                  and enchanted books because there is no data for their in API.
                  */
                 if (name.contains("PET-")) {
                     name = name.replace("PET-", "")
@@ -107,32 +106,36 @@ public class PriceInfoTooltip {
                             .replace("LEGENDARY", "4")
                             .replace("MYTHIC", "5")
                             .replace("-", ";");
-                } else if (name.contains("ENCHANTED_BOOK-")) {
-                    name = name.replace("ENCHANTED_BOOK-", "").replace("-", ";");
-                } else if (name.contains("POTION-")) {
-                    name = "";
-                } else if (name.contains("RUNE-")) {
+                } else if (name.contains("POTION-") || name.contains("RUNE-") || name.contains("ENCHANTED_BOOK-")) {
                     name = "";
                 } else {
                     name = name.replace(":", "-");
                 }
 
-                SkyblockerConfig.Average type = SkyblockerConfig.get().general.itemTooltip.avg;
+                if (!name.isEmpty() && (threeDayAvgPricesJson.has(name) || oneDayAvgPricesJson.has(name))) {
+                    SkyblockerConfig.Average type = SkyblockerConfig.get().general.itemTooltip.avg;
 
-                // "No data" line because of API not keeping old data, it causes NullPointerException
-                if (!name.isEmpty() && (type == SkyblockerConfig.Average.ONE_DAY || type == SkyblockerConfig.Average.BOTH)) {
-                    lines.add(Text.literal(String.format("%-19s", "1 Day Avg. Price:"))
-                            .formatted(Formatting.GOLD)
-                            .append(oneDayAvgPricesJson.get(name) == null
-                                    ? Text.literal("No data").formatted(Formatting.RED)
-                                    : getCoinsMessage(oneDayAvgPricesJson.get(name).getAsDouble(), count)));
-                }
-                if (!name.isEmpty() && (type == SkyblockerConfig.Average.THREE_DAY || type == SkyblockerConfig.Average.BOTH)) {
-                    lines.add(Text.literal(String.format("%-19s", "3 Day Avg. Price:"))
-                            .formatted(Formatting.GOLD)
-                            .append(threeDayAvgPricesJson.get(name) == null
-                                    ? Text.literal("No data").formatted(Formatting.RED)
-                                    : getCoinsMessage(threeDayAvgPricesJson.get(name).getAsDouble(), count)));
+                    // "No data" line because of API not keeping old data, it causes NullPointerException
+                    if (type == SkyblockerConfig.Average.ONE_DAY || type == SkyblockerConfig.Average.BOTH) {
+                        lines.add(
+                                Text.literal(String.format("%-19s", "1 Day Avg. Price:"))
+                                        .formatted(Formatting.GOLD)
+                                        .append(oneDayAvgPricesJson.get(name) == null
+                                                ? Text.literal("No data").formatted(Formatting.RED)
+                                                : getCoinsMessage(oneDayAvgPricesJson.get(name).getAsDouble(), count)
+                                        )
+                        );
+                    }
+                    if (type == SkyblockerConfig.Average.THREE_DAY || type == SkyblockerConfig.Average.BOTH) {
+                        lines.add(
+                                Text.literal(String.format("%-19s", "3 Day Avg. Price:"))
+                                        .formatted(Formatting.GOLD)
+                                        .append(threeDayAvgPricesJson.get(name) == null
+                                                ? Text.literal("No data").formatted(Formatting.RED)
+                                                : getCoinsMessage(threeDayAvgPricesJson.get(name).getAsDouble(), count)
+                                        )
+                        );
+                    }
                 }
             }
         }
@@ -140,20 +143,25 @@ public class PriceInfoTooltip {
         if (SkyblockerConfig.get().general.itemTooltip.enableMuseumDate && !bazaarOpened) {
             if (isMuseumJson == null) {
                 nullWarning();
-            } else if (isMuseumJson.has(name)) {
-                String itemCategory = isMuseumJson.get(name).toString().replaceAll("\"", "");
-                String format = switch (itemCategory) {
-                    case "Weapons" -> "%-18s";
-                    case "Armor" -> "%-19s";
-                    default -> "%-20s";
-                };
-                lines.add(Text.literal(String.format(format, "Museum: (" + itemCategory + ")"))
-                        .formatted(Formatting.LIGHT_PURPLE)
-                        .append(Text.literal(timestamp != null ? timestamp : "").formatted(Formatting.RED)));
-            } else if (timestamp != null) {
-                lines.add(Text.literal(String.format("%-21s", "Obtained: "))
-                        .formatted(Formatting.LIGHT_PURPLE)
-                        .append(Text.literal(timestamp).formatted(Formatting.RED)));
+            }
+            else {
+                String timestamp = getTimestamp(stack);
+
+                if (isMuseumJson.has(name)) {
+                    String itemCategory = isMuseumJson.get(name).toString().replaceAll("\"", "");
+                    String format = switch (itemCategory) {
+                        case "Weapons" -> "%-18s";
+                        case "Armor" -> "%-19s";
+                        default -> "%-20s";
+                    };
+                    lines.add(Text.literal(String.format(format, "Museum: (" + itemCategory + ")"))
+                            .formatted(Formatting.LIGHT_PURPLE)
+                            .append(Text.literal(timestamp).formatted(Formatting.RED)));
+                } else if (!timestamp.isEmpty()) {
+                    lines.add(Text.literal(String.format("%-21s", "Obtained: "))
+                            .formatted(Formatting.LIGHT_PURPLE)
+                            .append(Text.literal(timestamp).formatted(Formatting.RED)));
+                }
             }
         }
     }
@@ -201,7 +209,7 @@ public class PriceInfoTooltip {
                 }
             }
         }
-        return null;
+        return "";
     }
 
     public static String getInternalNameFromNBT(ItemStack stack) {
