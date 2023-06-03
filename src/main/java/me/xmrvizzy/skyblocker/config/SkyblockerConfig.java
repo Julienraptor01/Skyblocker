@@ -221,8 +221,8 @@ public class SkyblockerConfig implements ConfigData {
         @Override
         public String toString() {
             return switch (this) {
-                case ONE_DAY -> "1 day price";
-                case THREE_DAY -> "3 day price";
+                case ONE_DAY -> "1 day average";
+                case THREE_DAY -> "3 day average";
                 case BOTH -> "Both";
             };
         }

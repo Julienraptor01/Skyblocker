@@ -12,6 +12,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,8 +24,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.zip.GZIPInputStream;
 
@@ -40,6 +43,7 @@ public class PriceInfoTooltip {
     private static JsonObject isMuseumJson;
     private static boolean nullMsgSend = false;
     private final static Gson gson = new Gson();
+    private final static Map<PriceType, String> apiAdresses;
 
     public static void onInjectTooltip(ItemStack stack, TooltipContext context, List<Text> lines) {
         if (!Utils.isOnSkyblock || client.player == null) return;
@@ -272,6 +276,29 @@ public class PriceInfoTooltip {
         }
     }
 
+    public enum PriceType {
+        ONE_DAY_AVERAGE,
+        THREE_DAY_AVERAGE,
+        LOWEST_BIN,
+        LOWEST_BIN_BACKUP,
+        BAZAAR,
+        NPC,
+        MUSEUM;
+
+        @Override
+        public String toString() {
+            return switch (this) {
+                case ONE_DAY_AVERAGE -> "1 day average";
+                case THREE_DAY_AVERAGE -> "3 day average";
+                case LOWEST_BIN -> "lowest BIN";
+                case LOWEST_BIN_BACKUP -> "lowest BIN backup";
+                case BAZAAR -> "bazaar";
+                case NPC -> "NPC";
+                case MUSEUM -> "museum";
+            };
+        }
+    }
+
     // If these options is true beforehand, the client will get first data of these options while loading.
     // After then, it will only fetch the data if it is on Skyblock.
     public static int minute = -1;
@@ -287,23 +314,25 @@ public class PriceInfoTooltip {
                 SkyblockerConfig.Average type = SkyblockerConfig.get().general.itemTooltip.avg;
 
                 if (type == SkyblockerConfig.Average.BOTH || oneDayAvgPricesJson == null || threeDayAvgPricesJson == null) {
-                    futureList.add(CompletableFuture.runAsync(() -> downloadAvgPrices(SkyblockerConfig.Average.THREE_DAY)));
-                    futureList.add(CompletableFuture.runAsync(() -> downloadAvgPrices(SkyblockerConfig.Average.ONE_DAY)));
-                } else {
-                    futureList.add(CompletableFuture.runAsync(() -> downloadAvgPrices(type)));
+                    futureList.add(CompletableFuture.runAsync(() -> oneDayAvgPricesJson = downloadPrices(PriceType.ONE_DAY_AVERAGE)));
+                    futureList.add(CompletableFuture.runAsync(() -> threeDayAvgPricesJson = downloadPrices(PriceType.THREE_DAY_AVERAGE)));
+                } else if (type == SkyblockerConfig.Average.ONE_DAY) {
+                    futureList.add(CompletableFuture.runAsync(() -> oneDayAvgPricesJson = downloadPrices(PriceType.ONE_DAY_AVERAGE)));
+                } else if (type == SkyblockerConfig.Average.THREE_DAY) {
+                    futureList.add(CompletableFuture.runAsync(() -> threeDayAvgPricesJson = downloadPrices(PriceType.THREE_DAY_AVERAGE)));
                 }
             }
             if (SkyblockerConfig.get().general.itemTooltip.enableLowestBIN) {
-                futureList.add(CompletableFuture.runAsync(PriceInfoTooltip::downloadLowestPrices));
+                futureList.add(CompletableFuture.runAsync(() -> lowestPricesJson = downloadPrices(PriceType.LOWEST_BIN)));
             }
             if (SkyblockerConfig.get().general.itemTooltip.enableBazaarPrice) {
-                futureList.add(CompletableFuture.runAsync(PriceInfoTooltip::downloadBazaarPrices));
+                futureList.add(CompletableFuture.runAsync(() -> bazaarPricesJson = downloadPrices(PriceType.BAZAAR)));
             }
             if (SkyblockerConfig.get().general.itemTooltip.enableNPCPrice && npcPricesJson == null) {
-                futureList.add(CompletableFuture.runAsync(PriceInfoTooltip::downloadNPCPrices));
+                futureList.add(CompletableFuture.runAsync(() -> npcPricesJson = downloadPrices(PriceType.NPC)));
             }
             if (SkyblockerConfig.get().general.itemTooltip.enableMuseumDate && isMuseumJson == null) {
-                futureList.add(CompletableFuture.runAsync(PriceInfoTooltip::downloadIsMuseum));
+                futureList.add(CompletableFuture.runAsync(() -> isMuseumJson = downloadPrices(PriceType.MUSEUM)));
             }
             minute++;
             CompletableFuture.allOf(futureList.toArray(new CompletableFuture[0]))
@@ -311,84 +340,31 @@ public class PriceInfoTooltip {
         }, 1200);
     }
 
-    private static void downloadAvgPrices(SkyblockerConfig.Average type) {
-        JsonObject result = null;
-        String avgDay = null;
-        switch (type) {
-            case ONE_DAY -> avgDay = "1day.json.gz";
-            case THREE_DAY -> avgDay = "3day.json.gz";
-        }
+    private static JsonObject downloadPrices(PriceType type) {
         try {
-            URL apiAddr = new URL("https://moulberry.codes/auction_averages_lbin/" + avgDay);
-            try (InputStream src = apiAddr.openStream()) {
-                try (GZIPInputStream gzipOutput = new GZIPInputStream(src)) {
-                    try (InputStreamReader reader = new InputStreamReader(gzipOutput)) {
-                        result = new Gson().fromJson(reader, JsonObject.class);
-                    }
-                }
+            String url = apiAdresses.get(type);
+            URL apiAddress = new URL(url);
+            InputStream src = apiAddress.openStream();
+            InputStreamReader reader = new InputStreamReader(url.endsWith(".gz") ? new GZIPInputStream(src) : src);
+            return new Gson().fromJson(reader, JsonObject.class);
+        } catch (IOException e) {
+            LOGGER.warn("[Skyblocker] Failed to download " + type.name() + " prices!", e);
+            if (type == PriceType.LOWEST_BIN) {
+                lowestPricesJson = downloadPrices(PriceType.LOWEST_BIN_BACKUP);
             }
-        } catch (IOException e) {
-            LOGGER.warn("[Skyblocker] Failed to download average BIN prices!", e);
-        }
-        switch (type) {
-            case ONE_DAY -> oneDayAvgPricesJson = result;
-            case THREE_DAY -> threeDayAvgPricesJson = result;
+            return null;
         }
     }
 
-    private static void downloadBazaarPrices() {
-        JsonObject result = null;
-        try {
-            URL apiAddr = new URL("https://hysky.de/api/bazaar");
-            InputStreamReader reader = new InputStreamReader(apiAddr.openStream());
-            result = new Gson().fromJson(reader, JsonObject.class);
-        } catch (IOException e) {
-            LOGGER.warn("[Skyblocker] Failed to download bazaar prices!", e);
-        }
-        bazaarPricesJson = result;
-    }
-
-    private static void downloadLowestPrices() {
-        JsonObject result = null;
-        try {
-            URL apiAddr = new URL("https://lb.tricked.pro/lowestbins");
-            InputStreamReader reader = new InputStreamReader(apiAddr.openStream());
-            result = new Gson().fromJson(reader, JsonObject.class);
-        } catch (IOException e) {
-            LOGGER.warn("[Skyblocker] Failed to download lowest BIN prices from the main source!", e);
-            try {
-                URL apiAddr = new URL("https://lb2.tricked.pro/lowestbins");
-                InputStreamReader reader = new InputStreamReader(apiAddr.openStream());
-                result = new Gson().fromJson(reader, JsonObject.class);
-            } catch (IOException e2) {
-                LOGGER.warn("[Skyblocker] Failed to download lowest BIN prices from the backup source!", e2);
-            }
-        }
-        lowestPricesJson = result;
-    }
-
-    private static void downloadNPCPrices() {
-        JsonObject result = null;
-        try {
-            URL apiAddr = new URL("https://hysky.de/api/npcprice");
-            InputStreamReader reader = new InputStreamReader(apiAddr.openStream());
-            result = new Gson().fromJson(reader, JsonObject.class);
-        } catch (IOException e) {
-            LOGGER.warn("[Skyblocker] Failed to download NPC prices!", e);
-        }
-        npcPricesJson = result;
-    }
-
-    private static void downloadIsMuseum() {
-        JsonObject result = null;
-        try {
-            URL apiAddr = new URL("https://hysky.de/api/museum");
-            InputStreamReader reader = new InputStreamReader(apiAddr.openStream());
-            result = new Gson().fromJson(reader, JsonObject.class);
-        } catch (IOException e) {
-            LOGGER.warn("[Skyblocker] Failed to download museum items!", e);
-        }
-        isMuseumJson = result;
+    static {
+        apiAdresses = new HashMap<>();
+        apiAdresses.put(PriceInfoTooltip.PriceType.ONE_DAY_AVERAGE, "https://moulberry.codes/auction_averages_lbin/1day.json.gz");
+        apiAdresses.put(PriceInfoTooltip.PriceType.THREE_DAY_AVERAGE, "https://moulberry.codes/auction_averages_lbin/3day.json.gz");
+        apiAdresses.put(PriceType.LOWEST_BIN, "https://lb.tricked.pro/lowestbins");
+        apiAdresses.put(PriceType.LOWEST_BIN_BACKUP, "https://lb2.tricked.pro/lowestbins");
+        apiAdresses.put(PriceType.BAZAAR, "https://hysky.de/api/bazaar");
+        apiAdresses.put(PriceType.NPC, "https://hysky.de/api/npcprice");
+        apiAdresses.put(PriceType.MUSEUM, "https://hysky.de/api/museum");
     }
 
 }
