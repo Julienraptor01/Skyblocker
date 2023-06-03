@@ -55,7 +55,7 @@
   "text.autoconfig.skyblocker.option.locations.dungeons.croesusHelper.@Tooltip": "用灰色显示出已经打开过的箱子",
   "text.autoconfig.skyblocker.option.locations.dungeons.enableMap": "启用地图",
   "text.autoconfig.skyblocker.option.locations.dungeons.solveThreeWeirdos": "解决三怪人迷题",
-  "text.autoconfig.skyblocker.option.locations.dungeons.blazesolver": "解决烈焰人迷题",
+  "text.autoconfig.skyblocker.option.locations.dungeons.blazeSolver": "解决烈焰人迷题",
   "text.autoconfig.skyblocker.option.locations.dungeons.solveTrivia": "解决常识迷题",
   "text.autoconfig.skyblocker.option.locations.dungeons.terminals": "终端助手",
   "text.autoconfig.skyblocker.option.locations.dungeons.terminals.solveColor": "解决颜色迷题",

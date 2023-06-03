@@ -9,7 +9,7 @@
   "text.autoconfig.skyblocker.option.locations.dungeons": "Катакомбы",
   "text.autoconfig.skyblocker.option.locations.dungeons.enableMap": "Включить карту",
   "text.autoconfig.skyblocker.option.locations.dungeons.solveThreeWeirdos": "Решать головоломку \"Три чудака\"",
-  "text.autoconfig.skyblocker.option.locations.dungeons.blazesolver": "Решать головоломку с ифритами",
+  "text.autoconfig.skyblocker.option.locations.dungeons.blazeSolver": "Решать головоломку с ифритами",
   "text.autoconfig.skyblocker.option.locations.dungeons.solveTrivia": "Решать головоломку с вопросами",
   "text.autoconfig.skyblocker.option.locations.dwarvenMines": "Гномьи шахты",
   "text.autoconfig.skyblocker.option.locations.dwarvenMines.enableDrillFuel": "Показывать топливо дрели",
