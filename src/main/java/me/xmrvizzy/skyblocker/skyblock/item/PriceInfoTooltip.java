@@ -242,11 +242,8 @@ public class PriceInfoTooltip {
 
                 return internalName;
             }
-            else
-                return null;
         }
-        else
-            return null;
+        return null;
     }
 
     private static Text getCoinsMessage(double price, int count) {
