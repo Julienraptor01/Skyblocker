@@ -258,7 +258,7 @@ public class SkyblockerConfig implements ConfigData {
         public boolean croesusHelper = true;
         public boolean enableMap = true;
         public boolean solveThreeWeirdos = true;
-        public boolean blazesolver = true;
+        public boolean blazeSolver = true;
         public boolean solveTrivia = true;
         @ConfigEntry.Gui.CollapsibleObject()
         public Terminals terminals = new Terminals();

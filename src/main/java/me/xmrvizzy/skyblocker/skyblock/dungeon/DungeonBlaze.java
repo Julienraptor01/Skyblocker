@@ -61,7 +61,7 @@ public class DungeonBlaze {
         //QuadColor outlineColorRed = QuadColor.single( 1.0F, 0.0F, 0.0F, 1f);
         QuadColor outlineColorGreen = QuadColor.single(0.0F, 1.0F, 0.0F, 1f);
         try {
-            if (highestBlaze != null && lowestBlaze != null && highestBlaze.isAlive() && lowestBlaze.isAlive() && SkyblockerConfig.get().locations.dungeons.blazesolver) {
+            if (highestBlaze != null && lowestBlaze != null && highestBlaze.isAlive() && lowestBlaze.isAlive() && SkyblockerConfig.get().locations.dungeons.blazeSolver) {
                 /* Outline */
                 if (highestBlaze.getY() < 69) {
                     Box blaze = highestBlaze.getBoundingBox().expand(0.3, 0.9, 0.3).offset(0, -1.1, 0);
