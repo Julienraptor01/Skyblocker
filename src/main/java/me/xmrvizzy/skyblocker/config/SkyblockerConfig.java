@@ -1,15 +1,24 @@
 package me.xmrvizzy.skyblocker.config;
 
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
+import me.xmrvizzy.skyblocker.SkyblockerMod;
 import me.xmrvizzy.skyblocker.chat.ChatFilterResult;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.I18n;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.mojang.brigadier.builder.LiteralArgumentBuilder.literal;
 
 @Config(name = "skyblocker")
 public class SkyblockerConfig implements ConfigData {
@@ -317,8 +326,29 @@ public class SkyblockerConfig implements ConfigData {
         }
     }
 
+    /**
+     * Registers the config to AutoConfig and register commands to open the config screen.
+     */
     public static void init() {
         AutoConfig.register(SkyblockerConfig.class, GsonConfigSerializer::new);
+        ClientCommandRegistrationCallback.EVENT.register(((dispatcher, registryAccess) -> dispatcher.register(ClientCommandManager.literal("skyblocker").then(optionsLiteral("config")).then(optionsLiteral("options")))));
+    }
+
+    /**
+     * Registers an options command with the given name. Used for registering both options and config as valid commands.
+     *
+     * @param name the name of the command node
+     * @return the command builder
+     */
+    private static LiteralArgumentBuilder<FabricClientCommandSource> optionsLiteral(String name) {
+        return ClientCommandManager.literal(name).executes(context -> {
+            // Don't immediately open the next screen as it will be closed by ChatScreen right after this command is executed
+            SkyblockerMod.getInstance().scheduler.schedule(() -> {
+                Screen a = AutoConfig.getConfigScreen(SkyblockerConfig.class, null).get();
+                MinecraftClient.getInstance().setScreen(a);
+            }, 0);
+            return 1;
+        });
     }
 
     public static SkyblockerConfig get() {

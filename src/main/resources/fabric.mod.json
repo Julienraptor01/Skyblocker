@@ -35,7 +35,7 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "me.xmrvizzy.skyblocker.SkyblockerInitializer"
+      "me.xmrvizzy.skyblocker.SkyblockerMod"
     ],
     "modmenu": [
       "me.xmrvizzy.skyblocker.config.modmenu.ModMenuEntry"
@@ -45,9 +45,9 @@
     "skyblocker.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.18",
-    "fabric-api": "*",
-    "cloth-config2": "*",
+    "fabricloader": ">=0.14.21",
+    "fabric-api": "0.76.0",
+    "cloth-config2": "8.2.88",
     "minecraft": "~1.19.2"
   },
   "custom": {

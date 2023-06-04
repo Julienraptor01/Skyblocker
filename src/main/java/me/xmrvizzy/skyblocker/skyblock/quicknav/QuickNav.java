@@ -2,6 +2,10 @@ package me.xmrvizzy.skyblocker.skyblock.quicknav;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import me.xmrvizzy.skyblocker.config.SkyblockerConfig;
+import me.xmrvizzy.skyblocker.utils.Utils;
+import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
+import net.fabricmc.fabric.api.client.screen.v1.Screens;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.StringNbtReader;
 
@@ -10,6 +14,17 @@ import java.util.List;
 import java.util.Locale;
 
 public class QuickNav {
+
+    public static void init() {
+        ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
+            if (Utils.isOnSkyblock && SkyblockerConfig.get().quickNav.enableQuickNav && screen instanceof HandledScreen<?>) {
+                String screenTitle = screen.getTitle().getString().trim();
+                List<QuickNavButton> buttons = QuickNav.init(screenTitle);
+                for (QuickNavButton button : buttons) Screens.getButtons(screen).add(button);
+            }
+        });
+    }
+
     public static List<QuickNavButton> init(String screenTitle) {
         List<QuickNavButton> buttons = new ArrayList<>();
         SkyblockerConfig.QuickNav data = SkyblockerConfig.get().quickNav;

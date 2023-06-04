@@ -8,7 +8,6 @@
     "ClientPlayerEntityMixin",
     "FarmlandBlockMixin",
     "GenericContainerScreenHandlerMixin",
-    "GenericContainerScreenMixin",
     "HandledScreenAccessor",
     "HandledScreenMixin",
     "InGameHudMixin",
