@@ -25,7 +25,7 @@ public abstract class ChatHudListenerMixin {
 
     @Inject(method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;ILnet/minecraft/client/gui/hud/MessageIndicator;Z)V", at = @At("HEAD"), cancellable = true)
     public void skyblocker$onMessage(Text message, MessageSignatureData signature, int ticks, MessageIndicator indicator, boolean refresh, CallbackInfo ci) {
-        if (!Utils.isOnSkyblock)
+        if (!Utils.isOnSkyblock())
             return;
         String asString = message.getString();
         ChatFilterResult result = ChatMessageListener.EVENT.invoker().onMessage(message, asString);

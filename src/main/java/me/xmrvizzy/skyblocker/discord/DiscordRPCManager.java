@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.DecimalFormat;
-import java.time.Instant;
 
 public class DiscordRPCManager {
     public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("###,###.##");
@@ -19,7 +18,7 @@ public class DiscordRPCManager {
     public static long startTimeStamp;
     public static int cycleCount;
 
-    public static void init(){
+    public static void init() {
         SkyblockEvents.LEAVE.register(DiscordIPC::stop);
         SkyblockEvents.JOIN.register(() -> {
             startTimeStamp = System.currentTimeMillis();
@@ -32,13 +31,13 @@ public class DiscordRPCManager {
         });
     }
 
-    public static void update(){
+    public static void update() {
         // If the custom message is empty, discord will keep the last message, this is can serve as a default if the user doesn't want a custom message
         if (SkyblockerConfig.get().richPresence.customMessage.isEmpty()) {
             SkyblockerConfig.get().richPresence.customMessage = "Playing Skyblock";
             AutoConfig.getConfigHolder(SkyblockerConfig.class).save();
         }
-        if ((!Utils.isOnSkyblock || !SkyblockerConfig.get().richPresence.enableRichPresence) && DiscordIPC.isConnected()){
+        if ((!Utils.isOnSkyblock() || !SkyblockerConfig.get().richPresence.enableRichPresence) && DiscordIPC.isConnected()) {
             DiscordIPC.stop();
             LOGGER.info("Discord RPC stopped");
             return;
@@ -47,7 +46,7 @@ public class DiscordRPCManager {
         DiscordIPC.setActivity(buildPresence());
     }
 
-    public static RichPresence buildPresence(){
+    public static RichPresence buildPresence() {
         RichPresence presence = new RichPresence();
         presence.setLargeImage("skyblocker-default", null);
         presence.setStart(startTimeStamp);
@@ -56,7 +55,7 @@ public class DiscordRPCManager {
         return presence;
     }
 
-    public static String getInfo(){
+    public static String getInfo() {
         String info = null;
         if (!SkyblockerConfig.get().richPresence.cycleMode) {
             switch (SkyblockerConfig.get().richPresence.info) {

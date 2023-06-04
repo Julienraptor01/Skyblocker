@@ -13,14 +13,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Screen.class)
 public abstract class ScreenMixin {
-
     @Inject(at = @At("HEAD"), method = "renderTooltip(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/item/ItemStack;II)V", cancellable = true)
     public void skyblocker$renderTooltip(MatrixStack matrices, ItemStack itemStack, int x, int y, CallbackInfo ci) {
         Text stackName = itemStack.getName();
         String strName = stackName.getString();
-        if (Utils.isOnSkyblock && SkyblockerConfig.get().general.hideEmptyTooltips && strName.equals(" ")) {
+        if (Utils.isOnSkyblock() && SkyblockerConfig.get().general.hideEmptyTooltips && strName.equals(" ")) {
             ci.cancel();
         }
     }
-
 }

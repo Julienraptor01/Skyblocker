@@ -16,7 +16,7 @@ public class RepositoryUpdate {
      * <p></p>
      * TODO A button could be added to the settings menu that will trigger this command.
      */
-    public static void init(){
+    public static void init() {
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(
                         ClientCommandManager.literal("skyblocker")
                                 .then(ClientCommandManager.literal("updaterepository")

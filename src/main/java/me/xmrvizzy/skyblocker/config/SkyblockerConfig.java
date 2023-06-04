@@ -18,8 +18,6 @@ import net.minecraft.client.resource.language.I18n;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mojang.brigadier.builder.LiteralArgumentBuilder.literal;
-
 @Config(name = "skyblocker")
 public class SkyblockerConfig implements ConfigData {
 

@@ -40,7 +40,7 @@ public class PriceInfoTooltip {
     private final static Map<PriceType, String> apiAdresses;
 
     public static void onInjectTooltip(ItemStack stack, TooltipContext context, List<Text> lines) {
-        if (!Utils.isOnSkyblock || client.player == null) return;
+        if (!Utils.isOnSkyblock() || client.player == null) return;
 
         String name = getInternalNameFromNBT(stack);
         if (name == null) return;
@@ -148,8 +148,7 @@ public class PriceInfoTooltip {
         if (SkyblockerConfig.get().general.itemTooltip.enableMuseumDate && !bazaarOpened) {
             if (isMuseumJson == null) {
                 nullWarning();
-            }
-            else {
+            } else {
                 String timestamp = getTimestamp(stack);
 
                 if (isMuseumJson.has(name)) {
@@ -302,7 +301,7 @@ public class PriceInfoTooltip {
 
     public static void init() {
         skyblocker.scheduler.scheduleCyclic(() -> {
-            if (!Utils.isOnSkyblock && 0 < minute++) {
+            if (!Utils.isOnSkyblock() && 0 < minute++) {
                 nullMsgSend = false;
                 return;
             }
@@ -348,7 +347,7 @@ public class PriceInfoTooltip {
         } catch (IOException e) {
             LOGGER.warn("[Skyblocker] Failed to download " + type.name() + " prices!", e);
             if (type == PriceType.LOWEST_BINS) {
-                lowestPricesJson = downloadPrices(PriceType.LOWEST_BINS_BACKUP);
+                return downloadPrices(PriceType.LOWEST_BINS_BACKUP);
             }
             return null;
         }
