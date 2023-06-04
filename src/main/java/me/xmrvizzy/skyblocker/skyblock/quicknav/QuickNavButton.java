@@ -17,7 +17,7 @@ import net.minecraft.util.Identifier;
 @Environment(value = EnvType.CLIENT)
 public class QuickNavButton extends ClickableWidget {
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
-    private static final Identifier BUTTON_TEXTURE = new Identifier("textures/gui/container/creative_inventory/tabs.png");
+    private static final Identifier BUTTON_TEXTURE = new Identifier("textures/gui/gui/creative_inventory/tabs.png");
 
     @Override
     public void appendNarrations(NarrationMessageBuilder builder) {
