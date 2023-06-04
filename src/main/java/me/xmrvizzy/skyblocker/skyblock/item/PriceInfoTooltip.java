@@ -345,7 +345,7 @@ public class PriceInfoTooltip {
             InputStreamReader reader = new InputStreamReader(url.endsWith(".gz") ? new GZIPInputStream(src) : src);
             return new Gson().fromJson(reader, JsonObject.class);
         } catch (IOException e) {
-            LOGGER.warn("[Skyblocker] Failed to download " + type.name() + " prices!", e);
+            LOGGER.warn("[Skyblocker] Failed to download " + type.toString() + " prices!", e);
             if (type == PriceType.LOWEST_BINS) {
                 return downloadPrices(PriceType.LOWEST_BINS_BACKUP);
             }
