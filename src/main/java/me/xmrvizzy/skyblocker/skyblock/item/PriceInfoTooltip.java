@@ -276,7 +276,6 @@ public class PriceInfoTooltip {
         ONE_DAY_AVERAGE,
         THREE_DAY_AVERAGE,
         LOWEST_BINS,
-        LOWEST_BINS_BACKUP,
         BAZAAR,
         NPC,
         MUSEUM;
@@ -287,7 +286,6 @@ public class PriceInfoTooltip {
                 case ONE_DAY_AVERAGE -> "1 day average";
                 case THREE_DAY_AVERAGE -> "3 day average";
                 case LOWEST_BINS -> "lowest BIN";
-                case LOWEST_BINS_BACKUP -> "lowest BIN backup";
                 case BAZAAR -> "bazaar";
                 case NPC -> "NPC";
                 case MUSEUM -> "museum";
@@ -346,9 +344,6 @@ public class PriceInfoTooltip {
             return new Gson().fromJson(reader, JsonObject.class);
         } catch (IOException e) {
             LOGGER.warn("[Skyblocker] Failed to download " + type.toString() + " prices!", e);
-            if (type == PriceType.LOWEST_BINS) {
-                return downloadPrices(PriceType.LOWEST_BINS_BACKUP);
-            }
             return null;
         }
     }
@@ -358,7 +353,6 @@ public class PriceInfoTooltip {
         apiAdresses.put(PriceInfoTooltip.PriceType.ONE_DAY_AVERAGE, "https://moulberry.codes/auction_averages_lbin/1day.json.gz");
         apiAdresses.put(PriceInfoTooltip.PriceType.THREE_DAY_AVERAGE, "https://moulberry.codes/auction_averages_lbin/3day.json.gz");
         apiAdresses.put(PriceType.LOWEST_BINS, "https://lb.tricked.pro/lowestbins");
-        apiAdresses.put(PriceType.LOWEST_BINS_BACKUP, "https://lb2.tricked.pro/lowestbins");
         apiAdresses.put(PriceType.BAZAAR, "https://hysky.de/api/bazaar");
         apiAdresses.put(PriceType.NPC, "https://hysky.de/api/npcprice");
         apiAdresses.put(PriceType.MUSEUM, "https://hysky.de/api/museum");
