@@ -6,6 +6,7 @@
     "AccessorWorldRenderer",
     "ChatHudListenerMixin",
     "ClientPlayerEntityMixin",
+    "ClientPlayNetworkHandlerMixin",
     "FarmlandBlockMixin",
     "GenericContainerScreenHandlerMixin",
     "HandledScreenAccessor",
