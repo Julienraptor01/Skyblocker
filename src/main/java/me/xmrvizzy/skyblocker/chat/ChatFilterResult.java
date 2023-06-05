@@ -14,6 +14,6 @@ public enum ChatFilterResult {
 
     @Override
     public String toString() {
-        return I18n.translate("skyblocker.chat_filter_result." + this.name());
+        return I18n.translate("text.autoconfig.skyblocker.option.messages.chatFilterResult." + this.name());
     }
 }
