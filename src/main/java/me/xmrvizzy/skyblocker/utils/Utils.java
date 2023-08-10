@@ -132,7 +132,7 @@ public class Utils {
         String serverAddress = (client.getCurrentServerEntry() != null) ? client.getCurrentServerEntry().address : "";
 
         if (sidebar.isEmpty()) return;
-        if (serverAddress.contains("hypixel.net") || serverAddress.contains("hypixel.io")) {
+        if (serverAddress.matches("^(?i)(?:.*\\.)?hypixel\\.(?:net|io)$")) {
             if (!isOnHypixel) {
                 isOnHypixel = true;
             }
