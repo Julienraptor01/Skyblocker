@@ -13,6 +13,8 @@ import de.hysky.skyblocker.skyblock.chocolatefactory.EggFinder;
 import de.hysky.skyblocker.skyblock.chocolatefactory.TimeTowerReminder;
 import de.hysky.skyblocker.skyblock.crimson.kuudra.Kuudra;
 import de.hysky.skyblocker.skyblock.dungeon.*;
+import de.hysky.skyblocker.skyblock.dungeon.device.LightsOn;
+import de.hysky.skyblocker.skyblock.dungeon.device.SimonSays;
 import de.hysky.skyblocker.skyblock.dungeon.partyfinder.PartyFinderScreen;
 import de.hysky.skyblocker.skyblock.dungeon.puzzle.*;
 import de.hysky.skyblocker.skyblock.dungeon.puzzle.boulder.Boulder;
@@ -147,6 +149,8 @@ public class SkyblockerMod implements ClientModInitializer {
         Silverfish.init();
         IceFill.init();
         DungeonScore.init();
+        SimonSays.init();
+        LightsOn.init();
         PartyFinderScreen.initClass();
         ChestValue.init();
         FireFreezeStaffTimer.init();
