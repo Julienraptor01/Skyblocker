@@ -30,6 +30,7 @@ repositories {
 	}
 	maven { url "https://repo.codemc.io/repository/maven-public/" } // For Occlusion Culling library
 	maven { url "https://repo.nea.moe/releases" } // For neu repoparser
+	maven { url "https://maven.azureaaron.net/snapshots" } // For HM Api
 }
 
 dependencies {
@@ -49,6 +50,9 @@ dependencies {
 
 	// YACL
 	include modImplementation("dev.isxander:yet-another-config-lib:${project.yacl_version}-fabric")
+
+	//HM Api
+	include modImplementation("net.azureaaron:hm-api:${project.hmapi_version}")
 
 	// Mod Menu
 	modImplementation "com.terraformersmc:modmenu:${project.mod_menu_version}"

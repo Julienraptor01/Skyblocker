@@ -6,21 +6,28 @@ import de.hysky.skyblocker.events.SkyblockEvents;
 import de.hysky.skyblocker.mixins.accessors.MessageHandlerAccessor;
 import de.hysky.skyblocker.skyblock.item.MuseumItemCache;
 import de.hysky.skyblocker.skyblock.item.tooltip.ItemTooltip;
-import de.hysky.skyblocker.utils.scheduler.MessageScheduler;
 import de.hysky.skyblocker.utils.scheduler.Scheduler;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.azureaaron.hmapi.data.server.Environment;
+import net.azureaaron.hmapi.events.HypixelPacketEvents;
+import net.azureaaron.hmapi.network.HypixelNetworking;
+import net.azureaaron.hmapi.network.packet.s2c.ErrorS2CPacket;
+import net.azureaaron.hmapi.network.packet.s2c.HelloS2CPacket;
+import net.azureaaron.hmapi.network.packet.s2c.HypixelS2CPacket;
+import net.azureaaron.hmapi.network.packet.v1.s2c.LocationUpdateS2CPacket;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.scoreboard.*;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Util;
+
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,8 +51,9 @@ public class Utils {
     private static boolean isOnHypixel = false;
     private static boolean isOnSkyblock = false;
     private static boolean isInjected = false;
+    private static boolean shouldRegister4LocationUpdates = false;
     /**
-     * Current Skyblock location (from /locraw)
+     * Current Skyblock location (from the Mod API)
      */
     @NotNull
     private static Location location = Location.UNKNOWN;
@@ -60,9 +68,11 @@ public class Utils {
     @NotNull
     private static String profileId = "";
     /**
-     * The following fields store data returned from /locraw: {@link #server}, {@link #gameType}, {@link #locationRaw}, and {@link #map}.
+     * The following fields store data returned from the Mod API: 
+     * {@link #environment} {@link #server}, {@link #gameType}, {@link #locationRaw}, and {@link #map}.
      */
-    @SuppressWarnings("JavadocDeclaration")
+    @NotNull
+    private static Environment environment = Environment.PRODUCTION;
     @NotNull
     private static String server = "";
     @NotNull
@@ -71,11 +81,6 @@ public class Utils {
     private static String locationRaw = "";
     @NotNull
     private static String map = "";
-    private static long clientWorldJoinTime = 0;
-    private static boolean sentLocRaw = false;
-    private static boolean canSendLocRaw = false;
-    //This is required to prevent the location change event from being fired twice.
-    private static boolean locationChanged = true;
 
     private static String mayor = "";
 
@@ -142,7 +147,7 @@ public class Utils {
     }
 
     /**
-     * @return the location parsed from /locraw.
+     * @return the location from the Mod API.
      */
     @NotNull
     public static Location getLocation() {
@@ -150,7 +155,17 @@ public class Utils {
     }
 
     /**
-     * @return the server parsed from /locraw.
+     * Used to differentiate between the main "production" server and the alpha network.
+     * 
+     * @return the environment from the Mod API.
+     */
+    @NotNull
+    public static Environment getEnvironment() {
+        return environment;
+    }
+
+    /**
+     * @return the server from the Mod API.
      */
     @NotNull
     public static String getServer() {
@@ -158,7 +173,7 @@ public class Utils {
     }
 
     /**
-     * @return the game type parsed from /locraw.
+     * @return the game type from the Mod API.
      */
     @NotNull
     public static String getGameType() {
@@ -166,7 +181,7 @@ public class Utils {
     }
 
     /**
-     * @return the location raw parsed from /locraw.
+     * @return the location raw from the Mod API.
      */
     @NotNull
     public static String getLocationRaw() {
@@ -174,7 +189,7 @@ public class Utils {
     }
 
     /**
-     * @return the map parsed from /locraw.
+     * @return the map parsed from the Mod API.
      */
     @NotNull
     public static String getMap() {
@@ -191,26 +206,30 @@ public class Utils {
 
     public static void init() {
         SkyblockEvents.JOIN.register(() -> tickMayorCache(false));
-        ClientPlayConnectionEvents.JOIN.register(Utils::onClientWorldJoin);
         ClientReceiveMessageEvents.ALLOW_GAME.register(Utils::onChatMessage);
         ClientReceiveMessageEvents.GAME_CANCELED.register(Utils::onChatMessage); // Somehow this works even though onChatMessage returns a boolean
         Scheduler.INSTANCE.scheduleCyclic(() -> tickMayorCache(true), 24_000, true); // Update every 20 minutes
+
+        // Register Mod API stuff
+        ClientPlayConnectionEvents.JOIN.register((_handler, _sender, _client) -> onClientWorldChange());
+        HypixelPacketEvents.HELLO.register(Utils::onPacket);
+        HypixelPacketEvents.LOCATION_UPDATE.register(Utils::onPacket);
     }
 
     /**
-     * Updates all the fields stored in this class from the sidebar, player list, and /locraw.
+     * Updates all the fields stored in this class from the sidebar, and the player list.
      */
     public static void update() {
         MinecraftClient client = MinecraftClient.getInstance();
         updateScoreboard(client);
         updatePlayerPresenceFromScoreboard(client);
         updateFromPlayerList(client);
-        updateLocRaw();
     }
 
     /**
      * Updates {@link #isOnSkyblock}, {@link #isInDungeons}, and {@link #isInjected} from the scoreboard.
      */
+    //TODO make isOnSkyblock dependent on the Mod API in the future.
     public static void updatePlayerPresenceFromScoreboard(MinecraftClient client) {
         List<String> sidebar = STRING_SCOREBOARD;
 
@@ -265,7 +284,7 @@ public class Utils {
     public static String getIslandArea() {
         try {
             for (String sidebarLine : STRING_SCOREBOARD) {
-                if (sidebarLine.contains("⏣") || sidebarLine.contains("ф") /* Rift */) {
+                if (sidebarLine.contains("\u23E3") || sidebarLine.contains("\u0444") /* Rift */) {
                     return sidebarLine.strip();
                 }
             }
@@ -370,25 +389,56 @@ public class Utils {
         }
     }
 
-    public static void onClientWorldJoin(ClientPlayNetworkHandler handler, PacketSender sender, MinecraftClient client) {
-        clientWorldJoinTime = System.currentTimeMillis();
-        resetLocRawInfo();
+    /**
+     * Handles the Mod API packets necessary to the mod's operations.
+     * 
+     * @implNote To avoid long record patterns, {@code var} is used which is probably better anyways.
+     */
+    private static void onPacket(HypixelS2CPacket packet) {
+        switch (packet) {
+            case HelloS2CPacket(var env) -> {
+                environment = env;
+
+                // Register to receive location updates when we join the server
+                // We need to use a boolean because the Hello packet is sent before the client can send packets to the server
+                shouldRegister4LocationUpdates = true;
+            }
+
+            // Try registering for updates anyways
+            case ErrorS2CPacket(var id, var error) when id == HelloS2CPacket.ID -> {
+                LOGGER.warn("[Skyblocker] The HelloS2CPacket sent back an error, registering for location updates anyways. Note: This may not work - Error: {}", error);
+                shouldRegister4LocationUpdates = true;
+            }
+
+            case LocationUpdateS2CPacket(var newServerName, var newServerType, var _newLobbyName, var newMode, var newMap) -> {
+                server = newServerName;
+                gameType = newServerType.orElse("");
+                locationRaw = newMode.orElse("");
+                location = Location.from(locationRaw);
+                map = newMap.orElse("");
+
+                SkyblockEvents.LOCATION_CHANGE.invoker().onSkyblockLocationChange(location);
+            }
+
+            case ErrorS2CPacket(var id, var error) when id == LocationUpdateS2CPacket.ID -> {
+                ClientPlayerEntity player = MinecraftClient.getInstance().player;
+
+                if (player != null) {
+                    player.sendMessage(Constants.PREFIX.get().append(Text.translatable("skyblocker.utils.locationUpdateError").formatted(Formatting.RED)));
+                }
+
+                LOGGER.error("[Skyblocker] Failed to update the player's current location! Some features of the mod may not work correctly :( - Error: {}", error);
+            }
+
+            default -> {} // Do nothing
+        }
     }
 
-    /**
-     * Sends /locraw to the server if the player is on skyblock and on a new island.
-     */
-    private static void updateLocRaw() {
-        if (isOnSkyblock) {
-            long currentTime = System.currentTimeMillis();
-            if (!sentLocRaw && canSendLocRaw && currentTime > clientWorldJoinTime + 1000) {
-                MessageScheduler.INSTANCE.sendMessageAfterCooldown("/locraw");
-                sentLocRaw = true;
-                canSendLocRaw = false;
-                locationChanged = true;
-            }
-        } else {
-            resetLocRawInfo();
+    private static void onClientWorldChange() {
+        if (shouldRegister4LocationUpdates) {
+            HypixelNetworking.registerToEvents(1, Util.make(new Object2IntOpenHashMap<>(), map -> map.put(LocationUpdateS2CPacket.ID, 1)));
+
+            shouldRegister4LocationUpdates = false;
         }
     }
 
@@ -397,7 +447,10 @@ public class Utils {
      * and {@link #location}
      *
      * @param message json message from chat
+     * 
+     * @deprecated This will be kept for now to allow the location to be force updated via /locraw just in case the mod api is down.
      */
+    @Deprecated(forRemoval = true)
     private static void parseLocRaw(String message) {
         JsonObject locRaw = JsonParser.parseString(message).getAsJsonObject();
 
@@ -417,26 +470,17 @@ public class Utils {
             map = locRaw.get("map").getAsString();
         }
 
-        if (locationChanged) {
-            SkyblockEvents.LOCATION_CHANGE.invoker().onSkyblockLocationChange(location);
-            locationChanged = false;
-        }
+        SkyblockEvents.LOCATION_CHANGE.invoker().onSkyblockLocationChange(location);
     }
 
     /**
      * Parses the /locraw reply from the server and updates the player's profile id
-     *
-     * @return not display the message in chat if the command is sent by the mod
      */
-    public static boolean onChatMessage(Text text, boolean overlay) {
+    private static boolean onChatMessage(Text text, boolean overlay) {
         String message = text.getString();
 
         if (message.startsWith("{\"server\":") && message.endsWith("}")) {
             parseLocRaw(message);
-            boolean shouldFilter = !sentLocRaw;
-            sentLocRaw = false;
-
-            return shouldFilter;
         }
 
         if (isOnSkyblock) {
@@ -450,16 +494,6 @@ public class Utils {
         }
 
         return true;
-    }
-
-    private static void resetLocRawInfo() {
-        sentLocRaw = false;
-        canSendLocRaw = true;
-        server = "";
-        gameType = "";
-        locationRaw = "";
-        map = "";
-        location = Location.UNKNOWN;
     }
 
     private static void tickMayorCache(boolean refresh) {
