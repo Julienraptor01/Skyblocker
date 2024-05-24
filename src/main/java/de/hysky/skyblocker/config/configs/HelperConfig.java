@@ -23,6 +23,9 @@ public class HelperConfig {
     @SerialEntry
     public ChocolateFactory chocolateFactory = new ChocolateFactory();
 
+    @SerialEntry
+    public Bazaar bazaar = new Bazaar();
+
     public static class MythologicalRitual {
         @SerialEntry
         public boolean enableMythologicalRitualHelper = true;
@@ -82,5 +85,10 @@ public class HelperConfig {
 
         @SerialEntry
         public boolean enableTimeTowerReminder = true;
+    }
+
+    public static class Bazaar {
+        @SerialEntry
+        public boolean enableBazaarHelper = true;
     }
 }
