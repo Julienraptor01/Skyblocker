@@ -44,8 +44,7 @@
     "immediatelyfast": "<=1.2.12+1.20.5"
   },
   "breaks": {
-    "forcecloseworldloadingscreen": "<=2.2.0",
-    "hypixel-mod-api": "*"
+    "forcecloseworldloadingscreen": "<=2.2.0"
   },
   "custom": {
     "modmenu": {

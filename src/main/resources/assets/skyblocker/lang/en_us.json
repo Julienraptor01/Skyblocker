@@ -622,6 +622,8 @@
 
   "skyblocker.utils.locationUpdateError": "Failed to update your location! Some features of the mod may not work properly :(",
 
+  "skyblocker.reparty.error": "Failed to reparty, try again in a moment!",
+
   "skyblocker.itemTooltip.noData": "\u00a7cNo Data",
   "skyblocker.itemTooltip.nullMessage": "\u00a7cItem price information on tooltip will renew in max 60 seconds. If not, check latest.log",
 
