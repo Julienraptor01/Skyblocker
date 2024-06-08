@@ -436,7 +436,7 @@ public class Utils {
 
     private static void onClientWorldChange() {
         if (shouldRegister4LocationUpdates) {
-            HypixelNetworking.registerToEvents(1, Util.make(new Object2IntOpenHashMap<>(), map -> map.put(LocationUpdateS2CPacket.ID, 1)));
+            HypixelNetworking.registerToEvents(Util.make(new Object2IntOpenHashMap<>(), map -> map.put(LocationUpdateS2CPacket.ID, 1)));
 
             shouldRegister4LocationUpdates = false;
         }
