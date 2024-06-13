@@ -218,6 +218,19 @@ public class ItemUtils {
         return null;
     }
 
+    @Nullable
+    public static Matcher getLoreLineIfContainsMatch(ItemStack item, Pattern pattern) {
+        for (Text line : getLore(item)) {
+            String string = line.getString();
+            Matcher matcher = pattern.matcher(string);
+            if (matcher.find()) {
+                return matcher;
+            }
+        }
+
+        return null;
+    }
+
     public static List<Text> getLore(ItemStack item) {
         return item.getOrDefault(DataComponentTypes.LORE, LoreComponent.DEFAULT).styledLines();
     }
