@@ -16,8 +16,8 @@ public class SupercraftReminder extends TooltipAdder {
 	private static final byte SUPERCRAFT_SLOT = 32;
 	private static final byte RECIPE_RESULT_SLOT = 25;
 
-	public SupercraftReminder() {
-		super(Pattern.compile("^.+ Recipe$"), Integer.MIN_VALUE);
+	public SupercraftReminder(int priority) {
+		super(Pattern.compile("^.+ Recipe$"), priority);
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package de.hysky.skyblocker.skyblock.item.tooltip;
 
 import de.hysky.skyblocker.mixins.accessors.HandledScreenAccessor;
-import de.hysky.skyblocker.skyblock.chocolatefactory.ChocolateFactorySolver;
+import de.hysky.skyblocker.skyblock.chocolatefactory.ChocolateFactoryHelper;
 import de.hysky.skyblocker.skyblock.item.tooltip.adders.*;
 import de.hysky.skyblocker.utils.Utils;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
@@ -20,9 +20,9 @@ import java.util.List;
 
 public class TooltipManager {
 	private static final TooltipAdder[] adders = new TooltipAdder[]{
-			new LineSmoothener(), // Applies before anything else
-			new SupercraftReminder(),
-			new ChocolateFactorySolver.Tooltip(),
+			new LineSmoother(Integer.MIN_VALUE), // Applies before anything else
+			new SupercraftReminder(Integer.MIN_VALUE + 1),
+			new ChocolateFactoryHelper.Tooltip(0),
 			new NpcPriceTooltip(1),
 			new BazaarPriceTooltip(2),
 			new LBinTooltip(3),
