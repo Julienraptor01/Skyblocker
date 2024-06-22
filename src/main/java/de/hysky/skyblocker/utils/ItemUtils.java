@@ -242,6 +242,8 @@ public class ItemUtils {
                 yield enchant.toUpperCase(Locale.ENGLISH) + ";" + enchantments.getInt(enchant);
             }
             case "PET" -> {
+                if (!customData.contains("petInfo"))
+                    yield id;
                 PetCache.PetInfo petInfo = PetCache.PetInfo.CODEC.parse(JsonOps.INSTANCE, JsonParser.parseString(customData.getString("petInfo"))).getOrThrow();
                 yield petInfo.type() + ';' + petInfo.tierIndex();
             }

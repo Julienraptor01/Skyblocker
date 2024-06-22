@@ -72,6 +72,9 @@ public class HelperConfig {
         public boolean enableChocolateFactoryHelper = true;
 
         @SerialEntry
+        public float timeTowerEfficiency = 0.875f;
+
+        @SerialEntry
         public boolean enableEggFinder = true;
 
         @SerialEntry
