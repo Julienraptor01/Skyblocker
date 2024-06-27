@@ -58,17 +58,18 @@ public class MobGlow {
 				// Highlights Nukekubi Heads
 				case ArmorStandEntity armorStand when Utils.isInTheEnd() && SlayerUtils.isInSlayer() && isNukekubiHead(armorStand) -> SkyblockerConfigManager.get().slayers.endermanSlayer.highlightNukekubiHeads;
 
-				// Special Zealot && Slayer
+				// Special Zealot && Slayer (Mini)Boss
 				case EndermanEntity enderman when Utils.isInTheEnd() && !entity.isInvisible() ->
-						TheEnd.isSpecialZealot(enderman) || SlayerMobs.MOBS_TO_GLOW.contains(enderman.getUuid());
-				case ZombieEntity zombie when !(zombie instanceof ZombifiedPiglinEntity) -> SlayerMobs.MOBS_TO_GLOW.contains(zombie.getUuid());
-				case SpiderEntity spider -> SlayerMobs.MOBS_TO_GLOW.contains(spider.getUuid());
-				case WolfEntity wolf -> SlayerMobs.MOBS_TO_GLOW.contains(wolf.getUuid());
-				case BlazeEntity blaze -> SlayerMobs.MOBS_TO_GLOW.contains(blaze.getUuid());
+						TheEnd.isSpecialZealot(enderman) || SlayerMobs.shouldGlow(enderman.getUuid());
+				case ZombieEntity zombie when !(zombie instanceof ZombifiedPiglinEntity) -> SlayerMobs.shouldGlow(zombie.getUuid());
+				case SpiderEntity spider -> SlayerMobs.shouldGlow(spider.getUuid());
+				case WolfEntity wolf -> SlayerMobs.shouldGlow(wolf.getUuid());
+				case BlazeEntity blaze -> SlayerMobs.shouldGlow(blaze.getUuid());
+				// Inferno Demonlord's Demons
 				case WitherSkeletonEntity e when SkyblockerConfigManager.get().slayers.highlightBosses.toString().equals("GLOW") ->
-						SlayerUtils.isInSlayerQuestType("Inferno Demonlord") && e.distanceTo(MinecraftClient.getInstance().player) <= 10;
+						SlayerUtils.isInSlayerQuestType(SlayerUtils.DEMONLORD) && e.distanceTo(MinecraftClient.getInstance().player) <= 10;
 				case ZombifiedPiglinEntity e when SkyblockerConfigManager.get().slayers.highlightBosses.toString().equals("GLOW") ->
-						SlayerUtils.isInSlayerQuestType("Inferno Demonlord") && e.distanceTo(MinecraftClient.getInstance().player) <= 10;
+						SlayerUtils.isInSlayerQuestType(SlayerUtils.DEMONLORD) && e.distanceTo(MinecraftClient.getInstance().player) <= 10;
 				default -> false;
 			};
 		}
@@ -106,8 +107,8 @@ public class MobGlow {
 
 			case EndermanEntity enderman when TheEnd.isSpecialZealot(enderman) -> Formatting.RED.getColorValue();
 			case ArmorStandEntity armorStand when isNukekubiHead(armorStand) -> 0x990099;
-			// Slayer (Mini)Boss Highlights
-			case ArmorStandEntity armorStand when SlayerUtils.isInSlayerQuestType("Demonlord") -> SlayerMobs.getColour(armorStand);
+			// Blazeslayer Attunement Colours
+			case ArmorStandEntity armorStand when SlayerUtils.isInSlayerQuestType(SlayerUtils.DEMONLORD) -> SlayerMobs.getColour(armorStand);
 			case BlazeEntity blaze when SlayerUtils.isInSlayer() -> SlayerMobs.getColour(blaze);
 			case ZombifiedPiglinEntity piglin when SlayerUtils.isInSlayer() -> SlayerMobs.getColour(piglin);
 			case WitherSkeletonEntity wSkelly when SlayerUtils.isInSlayer() -> SlayerMobs.getColour(wSkelly);
