@@ -201,7 +201,7 @@ public abstract class ItemStackMixin implements ComponentHolder, SkyblockerStack
 				}
 			}
 
-			case "RUNE" -> {
+			case "RUNE", "UNIQUE_RUNE" -> {
 				if (customData.contains("runes")) {
 					NbtCompound runes = customData.getCompound("runes");
 					Optional<String> firstRunes = runes.getKeys().stream().findFirst();
