@@ -7,7 +7,6 @@ import de.hysky.skyblocker.SkyblockerMod;
 import de.hysky.skyblocker.mixins.accessors.HandledScreenAccessor;
 import de.hysky.skyblocker.utils.Constants;
 import de.hysky.skyblocker.utils.ItemUtils;
-import de.hysky.skyblocker.utils.datafixer.ItemStackComponentizationFixer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
@@ -16,6 +15,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
@@ -46,51 +46,58 @@ public class Debug {
 					.then(ItemUtils.dumpHeldItemCommand())
 					.then(toggleShowingInvisibleArmorStands())
 					.then(dumpArmorStandHeadTextures())
+					.then(dumpArmorStandData())
 			)));
 			ScreenEvents.BEFORE_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
 				if (screen instanceof HandledScreen<?> handledScreen) {
-                    ScreenKeyboardEvents.afterKeyPress(screen).register((_screen, key, scancode, modifier) -> {
-                        Slot focusedSlot = ((HandledScreenAccessor) handledScreen).getFocusedSlot();
-                        if (key == GLFW.GLFW_KEY_U && client.player != null && focusedSlot != null && focusedSlot.hasStack()) {
-                            client.player.sendMessage(Text.literal("[Skyblocker Debug] Hovered Item: " + SkyblockerMod.GSON_COMPACT.toJson(ItemStack.CODEC.encodeStart(JsonOps.INSTANCE, focusedSlot.getStack()).getOrThrow())));
-                        }
-                    });
-                }
-            });
+					ScreenKeyboardEvents.afterKeyPress(screen).register((_screen, key, scancode, modifier) -> {
+						Slot focusedSlot = ((HandledScreenAccessor) handledScreen).getFocusedSlot();
+						if (key == GLFW.GLFW_KEY_U && client.player != null && focusedSlot != null && focusedSlot.hasStack()) {
+							client.player.sendMessage(Text.literal("[Skyblocker Debug] Hovered Item: " + SkyblockerMod.GSON_COMPACT.toJson(ItemStack.CODEC.encodeStart(JsonOps.INSTANCE, focusedSlot.getStack()).getOrThrow())));
+						}
+					});
+				}
+			});
 		}
 	}
 
 	private static LiteralArgumentBuilder<FabricClientCommandSource> dumpPlayersCommand() {
-		return literal("dumpPlayers")
-				.executes(context -> {
-					context.getSource().getWorld().getPlayers().forEach(player -> context.getSource().sendFeedback(Text.of("'" + player.getName().getString() + "'")));
-					return Command.SINGLE_SUCCESS;
-				});
+		return literal("dumpPlayers").executes(context -> {
+			context.getSource().getWorld().getPlayers().forEach(player -> context.getSource().sendFeedback(Text.of("'" + player.getName().getString() + "'")));
+			return Command.SINGLE_SUCCESS;
+		});
 	}
 
 	private static LiteralArgumentBuilder<FabricClientCommandSource> toggleShowingInvisibleArmorStands() {
-		return literal("toggleShowingInvisibleArmorStands")
-				.executes(context -> {
-					showInvisibleArmorStands = !showInvisibleArmorStands;
-					context.getSource().sendFeedback(Constants.PREFIX.get().append(Text.translatable("skyblocker.debug.toggledShowingInvisibleArmorStands", showInvisibleArmorStands)));
-					return Command.SINGLE_SUCCESS;
-				});
+		return literal("toggleShowingInvisibleArmorStands").executes(context -> {
+			showInvisibleArmorStands = !showInvisibleArmorStands;
+			context.getSource().sendFeedback(Constants.PREFIX.get().append(Text.translatable("skyblocker.debug.toggledShowingInvisibleArmorStands", showInvisibleArmorStands)));
+			return Command.SINGLE_SUCCESS;
+		});
 	}
-	
+
 	private static LiteralArgumentBuilder<FabricClientCommandSource> dumpArmorStandHeadTextures() {
-		return literal("dumpArmorStandHeadTextures")
-				.executes(context -> {
-					List<ArmorStandEntity> armorStands = context.getSource().getWorld().getEntitiesByClass(ArmorStandEntity.class, context.getSource().getPlayer().getBoundingBox().expand(8d), EntityPredicates.NOT_MOUNTED);
+		return literal("dumpArmorStandHeadTextures").executes(context -> {
+			List<ArmorStandEntity> armorStands = context.getSource().getWorld().getEntitiesByClass(ArmorStandEntity.class, context.getSource().getPlayer().getBoundingBox().expand(8d), EntityPredicates.NOT_MOUNTED);
+			for (ArmorStandEntity armorStand : armorStands) {
+				Iterable<ItemStack> equippedItems = armorStand.getEquippedItems();
+				for (ItemStack stack : equippedItems) {
+					ItemUtils.getHeadTextureOptional(stack).ifPresent(texture -> context.getSource().sendFeedback(Text.of(texture)));
+				}
+			}
+			return Command.SINGLE_SUCCESS;
+		});
+	}
 
-					for (ArmorStandEntity armorStand : armorStands) {
-						Iterable<ItemStack> equippedItems = armorStand.getEquippedItems();
-
-						for (ItemStack stack : equippedItems) {
-							ItemUtils.getHeadTextureOptional(stack).ifPresent(texture -> context.getSource().sendFeedback(Text.of(texture)));
-						}
-					}
-
-					return Command.SINGLE_SUCCESS;
-				});
+	private static LiteralArgumentBuilder<FabricClientCommandSource> dumpArmorStandData() {
+		return literal("dumpArmorStandData").executes(context -> {
+			List<ArmorStandEntity> armorStands = context.getSource().getWorld().getEntitiesByClass(ArmorStandEntity.class, context.getSource().getPlayer().getBoundingBox().expand(8d), EntityPredicates.NOT_MOUNTED);
+			for (ArmorStandEntity armorStand : armorStands) {
+				NbtCompound nbt = new NbtCompound();
+				armorStand.writeNbt(nbt);
+				context.getSource().sendFeedback(Text.of(nbt.toString()));
+			}
+			return Command.SINGLE_SUCCESS;
+		});
 	}
 }
