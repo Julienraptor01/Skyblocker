@@ -40,6 +40,11 @@ public class TeleportOverlay {
                         render(wrc, 4);
                     }
                 }
+                case "ASPECT_OF_THE_LEECH_3" -> {
+                    if (SkyblockerConfigManager.get().uiAndVisuals.teleportOverlay.enableWeirdTransmission) {
+                        render(wrc, 5);
+                    }
+                }
                 case "ASPECT_OF_THE_END", "ASPECT_OF_THE_VOID" -> {
                     if (SkyblockerConfigManager.get().uiAndVisuals.teleportOverlay.enableEtherTransmission && client.options.sneakKey.isPressed() && customData.getInt("ethermerge") == 1) {
                         render(wrc, customData, 57);

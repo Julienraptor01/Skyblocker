@@ -1,8 +1,10 @@
 package de.hysky.skyblocker.mixins;
 
+import com.google.gson.JsonParser;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.mojang.serialization.JsonOps;
 import de.hysky.skyblocker.skyblock.CompactDamage;
 import de.hysky.skyblocker.skyblock.FishingHelper;
 import de.hysky.skyblocker.skyblock.chocolatefactory.EggFinder;
@@ -22,13 +24,17 @@ import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.network.packet.s2c.play.*;
+import net.minecraft.text.Text;
+import net.minecraft.text.TextCodecs;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -125,4 +131,25 @@ public abstract class ClientPlayNetworkHandlerMixin {
     private void skyblocker$onEntityEquip(EntityEquipmentUpdateS2CPacket packet, CallbackInfo ci, @Local Entity entity) {
         EggFinder.checkIfEgg(entity);
     }
+
+	@ModifyArg(method = "handlePlayerListAction", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/PlayerListEntry;setDisplayName(Lnet/minecraft/text/Text;)V"))
+	private Text skyblocker$modifyPlayerListName(Text displayName) {
+        /*
+        if (Utils.isOnSkyblock() && displayName != null) {
+	        LoggerFactory.getLogger("PlayerListName").info(String.valueOf(TextCodecs.CODEC.encodeStart(JsonOps.INSTANCE, displayName).getOrThrow()));
+        }
+        */
+		return !Utils.isOnSkyblock() || displayName == null ? displayName : TextCodecs.CODEC.parse(JsonOps.INSTANCE, JsonParser.parseString(String.valueOf(TextCodecs.CODEC.encodeStart(JsonOps.INSTANCE, displayName).getOrThrow())
+				.replaceAll("Fallen Star", "Cult")
+				.replaceAll(" Gemstone\"", "\"")
+				.replaceAll("Ready!|DONE", "✔")
+				.replaceAll("\\[Lvl (\\d+)\\]", "[$1]")
+                .replaceAll(",\"obfuscated\":true", "")
+                .replaceAll("\\{\"text\":\"○\",\"color\":\"dark_gray\"},\\{\"text\":\"○\",\"color\":\"gray\"},\\{\"text\":\"○\",\"color\":\"gold\"},\\{\"text\":\"○ \",\"color\":\"aqua\"},(.*)gray", "$1dark_gray")
+                .replaceAll("\\{\"text\":\"●\",\"color\":\"dark_gray\"},\\{\"text\":\"○\",\"color\":\"gray\"},\\{\"text\":\"○\",\"color\":\"gold\"},\\{\"text\":\"○ \",\"color\":\"aqua\"},(.*)gray", "$1#B4684D")
+                .replaceAll("\\{\"text\":\"[○●]\",\"color\":\"dark_gray\"},\\{\"text\":\"●\",\"color\":\"gray\"},\\{\"text\":\"○\",\"color\":\"gold\"},\\{\"text\":\"○ \",\"color\":\"aqua\"},(.*)gray", "$1#CECACA")
+                .replaceAll("\\{\"text\":\"[○●]\",\"color\":\"dark_gray\"},\\{\"text\":\"[○●]\",\"color\":\"gray\"},\\{\"text\":\"●\",\"color\":\"gold\"},\\{\"text\":\"○ \",\"color\":\"aqua\"},(.*)gray", "$1#DEB12D")
+                .replaceAll("\\{\"text\":\"[○●]\",\"color\":\"dark_gray\"},\\{\"text\":\"[○●]\",\"color\":\"gray\"},\\{\"text\":\"[○●]\",\"color\":\"gold\"},\\{\"text\":\"● \",\"color\":\"aqua\"},(.*)gray", "$1#2CBAA8")
+		)).getOrThrow();
+	}
 }
