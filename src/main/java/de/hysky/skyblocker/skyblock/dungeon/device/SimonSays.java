@@ -6,7 +6,6 @@ import de.hysky.skyblocker.config.SkyblockerConfigManager;
 import de.hysky.skyblocker.skyblock.dungeon.DungeonBoss;
 import de.hysky.skyblocker.skyblock.dungeon.secrets.DungeonManager;
 import de.hysky.skyblocker.utils.Boxes;
-import de.hysky.skyblocker.utils.ColorUtils;
 import de.hysky.skyblocker.utils.Utils;
 import de.hysky.skyblocker.utils.render.RenderHelper;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -31,6 +30,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class SimonSays {
 	private static final Box BOARD_AREA = Box.enclosing(new BlockPos(111, 123, 92), new BlockPos(111, 120, 95));
@@ -47,7 +47,7 @@ public class SimonSays {
 		WorldRenderEvents.AFTER_TRANSLUCENT.register(SimonSays::render);
 	}
 
-	//When another player is pressing the buttons hypixel doesnt send block or block state updates
+	//When another player is pressing the buttons hypixel doesn't send block or block state updates
 	//so you can't see it which means the solver can only count the buttons you press yourself
 	private static ActionResult onBlockInteract(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {
 		if (shouldProcess()) {
@@ -70,14 +70,14 @@ public class SimonSays {
 	//If the player goes out of the range required to receive block/chunk updates then their solver won't detect stuff but that
 	//doesn't matter because if they're doing pre-4 or something they won't be doing the ss, and if they end up needing to they can
 	//just reset it or have the other person finish the current sequence first then let them do it.
-	public static void onBlockUpdate(BlockPos pos, BlockState state) {
+	public static void onBlockUpdate(BlockPos pos, BlockState newState, @Nullable BlockState oldState) {
 		if (shouldProcess()) {
 			Vec3d posVec = Vec3d.of(pos);
-			Block block = state.getBlock();
+			Block newBlock = newState.getBlock();
 
-			if (BOARD_AREA.contains(posVec) && block.equals(Blocks.SEA_LANTERN)) {
+			if (BOARD_AREA.contains(posVec) && newBlock.equals(Blocks.OBSIDIAN) && oldState != null && oldState.getBlock().equals(Blocks.SEA_LANTERN)) {
 				SIMON_PATTERN.add(pos.toImmutable()); //Convert to immutable because chunk delta updates use the mutable variant
-			} else if (BUTTONS_AREA.contains(posVec) && block.equals(Blocks.AIR)) {
+			} else if (BUTTONS_AREA.contains(posVec) && newBlock.equals(Blocks.AIR)) {
 				//Upon reaching the showing of the next sequence we need to reset the state so that we don't show old data
 				//Otherwise, the nextIndex will go beyond 5 and that can cause bugs, it also helps with the other case noted above
 				reset();

@@ -72,7 +72,7 @@ public class FairySouls {
 
     private static void loadFairySouls() {
         fairySoulsLoaded = NEURepoManager.runAsyncAfterLoad(() -> {
-            maxSouls = NEURepoManager.NEU_REPO.getConstants().getFairySouls().getMaxSouls();
+            maxSouls = NEURepoManager.NEU_REPO.getConstants().getFairySouls().getMaxSouls() + 1;
             NEURepoManager.NEU_REPO.getConstants().getFairySouls().getSoulLocations().forEach((location, fairiesForLocation) -> fairySouls.put(location, fairiesForLocation.stream().map(coordinate -> new BlockPos(coordinate.getX(), coordinate.getY(), coordinate.getZ())).collect(Collectors.toUnmodifiableMap(pos -> pos, pos -> new ProfileAwareWaypoint(pos, TYPE_SUPPLIER, DyeColor.GREEN.getColorComponents(), DyeColor.RED.getColorComponents())))));
             LOGGER.debug("[Skyblocker] Loaded {} fairy souls across {} locations", fairySouls.values().stream().mapToInt(Map::size).sum(), fairySouls.size());
 
