@@ -79,7 +79,9 @@ public class Trivia extends ChatPatternListener {
         answers.put("What is the status of Maxor, Storm, Goldor, and Necron?", new String[]{"The Wither Lords"});
         answers.put("Which brother is on the Spider's Den?", new String[]{"Rick"});
         answers.put("What is the name of Rick's brother?", new String[]{"Pat"});
-        answers.put("What is the name of the Painter in the Hub?", new String[]{"Marco"});
+        //Full Question: "What is the name of the vendor in the Hub who sells stained glass?"
+        //The solver cannot handle multiple lines right now and just sees "glass?" as the question
+        answers.put("glass?", new String[]{"Wool Weaver"});
         answers.put("What is the name of the person that upgrades pets?", new String[]{"Kat"});
         answers.put("What is the name of the lady of the Nether?", new String[]{"Elle"});
         answers.put("Which villager in the Village gives you a Rogue Sword?", new String[]{"Jamie"});
